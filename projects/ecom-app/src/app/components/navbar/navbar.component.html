@@ -1,0 +1,123 @@
+<div
+  class="hidden md:flex flex-row justify-between items-center p-2 h-[60px] w-full text-black nav sticky top-0 grad z-[100]"
+>
+  <div>
+    <span class="text-2xl text-white m-2 p-2 cursor-pointer" routerLink="/"
+      >Ecom App</span
+    >
+  </div>
+  <div class="flex-1 flex flex-row justify-center items-center h-[60px] w-full">
+    <input
+      type="text"
+      placeholder="Search Products"
+      class="p-2 w-[50%] rounded-bl-md rounded-tl-md outline-none h-[40px] text-black"
+    />
+    <button
+      class="w-fit h-[40px] bg-slate-300 text-black font-bold p-2 rounded-tr-md rounded-br-md"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <div class="flex flex-row justify-center items-center m-2">
+    <button
+      class="flex flex-row items-center justify-center p-2 m-2 transition-all duration-200 ease-in-out text-black bg-white rounded-md h-[40px] hover:bg-black hover:text-white"
+      [routerLink]="'/'"
+      [routerLinkActive]="'active'"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [matTooltip]="'Home'"
+    >
+      <mat-icon class="m-2">home</mat-icon>
+    </button>
+    <button
+      class="flex flex-row items-center justify-center p-2 m-2 transition-all duration-200 ease-in-out text-black bg-white rounded-md h-[40px] hover:bg-black hover:text-white"
+      [routerLink]="'/yourOrders'"
+      [routerLinkActive]="'active'"
+      [matTooltip]="'your orders'"
+    >
+      <mat-icon class="m-2">checkouts</mat-icon>
+    </button>
+    <button
+      class="flex flex-row items-center justify-center p-2 m-2 transition-all duration-200 ease-in-out text-black bg-white rounded-md h-[40px] hover:bg-black hover:text-white"
+      [routerLink]="'cart'"
+      [routerLinkActive]="'active'"
+      [matTooltip]="'cart'"
+      matBadge="8"
+      matBadgePosition="before"
+      matBadgeColor="accent"
+    >
+      <mat-icon class="m-2">shoppingcart</mat-icon>
+    </button>
+    <img
+      class="m-2 w-10 h-10 rounded-full cursor-pointer"
+      *ngIf="user !== null"
+      src="{{ user.imgUrl }}"
+      [matMenuTriggerFor]="account"
+    />
+    <button
+      class="flex flex-row items-center justify-center p-2 m-2 transition-all duration-200 ease-in-out text-black bg-white rounded-md h-[40px] hover:bg-black hover:text-white"
+      [routerLink]="'/login'"
+      [routerLinkActive]="'active'"
+      [matTooltip]="'login'"
+      *ngIf="user === null"
+    >
+      <mat-icon class="m-2">login</mat-icon>
+    </button>
+  </div>
+</div>
+<div
+  class="flex md:hidden flex-row justify-between items-center p-2 bg-white backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200 h-[60px] w-full text-white sticky top-0 z-[100]"
+  *ngIf="isShowing"
+>
+  <div>
+    <span class="text-2xl m-2 p-2" routerLink="/">Ecom App</span>
+  </div>
+  <button
+    class="m-2 p-2 bg-none w-fit h-fit text-white"
+    [mat-menu-trigger-for]="mobileMenu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+</div>
+
+<mat-menu #mobileMenu="matMenu">
+  <button
+    mat-menu-item
+    class="flex flex-row justify-center items-center"
+    *ngIf="user !== null"
+    [mat-menu-trigger-for]="account"
+  >
+    <img src="{{ user.imgUrl }}" class="w-10 h-10 m-2" />
+    <span class="text-md text-black font-bold">{{ user.name }}</span>
+  </button>
+  <button mat-menu-item routerLink="/yourOrders">
+    <mat-icon>checkout</mat-icon> <span>your orders</span>
+  </button>
+  <button mat-menu-item routerLink="/cart" class="w-[50%]">
+    <mat-icon matBadge="8" matBadgeColor="accent" matBadgePosition="before"
+      >shopping_cart</mat-icon
+    >
+    <span>cart</span>
+  </button>
+  <button mat-menu-item *ngIf="user === null" routerLink="/login">
+    <mat-icon>login</mat-icon> <span>Login</span>
+  </button>
+</mat-menu>
+
+<mat-menu #account="matMenu">
+  <button
+    class="hidden md:flex flex-row justify-center items-center"
+    *ngIf="user"
+  >
+    <img src="{{ user.imgUrl }}" class="w-10 h-10 m-2" />
+    <span class="font-bold m-2">{{ user.name }}</span>
+  </button>
+  <button mat-menu-item>Edit Your Profile</button>
+  <button
+    mat-menu-item
+    routerLink="/admin"
+    *ngIf="user && user.role === 'admin'"
+  >
+    See Dashbourd
+  </button>
+  <button mat-menu-item>Logout</button>
+</mat-menu>

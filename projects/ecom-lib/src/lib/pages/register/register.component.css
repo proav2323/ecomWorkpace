@@ -1,0 +1,9 @@
+.grad {
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+
+.button-grad {
+  background-color: #FFDEE9;
+  background-image: linear-gradient(0deg, #FFDEE9 0%, hsl(178, 100%, 85%) 100%);
+}

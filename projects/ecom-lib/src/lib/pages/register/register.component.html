@@ -1,0 +1,79 @@
+<div class="flex flex-col justify-start items-center h-[100vh]">
+  <div
+    class="text-black grad w-[50%] h-[fit-content] flex-col justify-start items-center hidden md:flex m-2 rounded-md"
+  >
+    <span class="text-[2rem] font-bold mt-6 m-2">Welcome Here</span>
+    <span class="text-[1rem] text-gray-900 mt-6 mb-4 m-2"
+      >create your account</span
+    >
+    <span
+      class="text-red-200 bg-red-950 p-4 m-2 w-[90%] text-center rounded-lg"
+      *ngIf="error !== ''"
+      >{{ error }}</span
+    >
+    <form class="m-10 w-[90%]" [formGroup]="formGroup">
+      <span class="text-lg m-2 font-bold">E-mail</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'email'"
+        [placeholder]="'Your Email'"
+        [controlName]="'email'"
+        [formGroup]="formGroup"
+      />
+      <span class="text-lg m-2 font-bold">Password</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'password'"
+        [placeholder]="'Your Password'"
+        [controlName]="'password'"
+        [formGroup]="formGroup"
+      />
+      <span class="text-lg m-2 font-bold">Name</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'text'"
+        [placeholder]="'Your Name'"
+        [controlName]="'name'"
+        [formGroup]="formGroup"
+      />
+    </form>
+    <button
+      class="button-grad p-4 rounded-md text-center w-[90%] text-lg text-[#f06] flex items-center justify-center m-4"
+      (click)="pickImage.click()"
+    >
+      <mat-spinner
+        *ngIf="imgLoading"
+        [diameter]="30"
+        class="mt-2 m-2"
+      ></mat-spinner>
+      choose profile photo
+    </button>
+    <span class="text-lg m-2 font-bold" *ngIf="imgUrl !== ''"
+      >selected Photo</span
+    >
+    <img
+      class="m-4 w-40 h-40 rounded-md"
+      src="{{ imgUrl }}"
+      *ngIf="imgUrl !== ''"
+    />
+    <input type="file" hidden (change)="uploadImage($event)" #pickImage />
+    <button
+      class="button-grad p-4 rounded-md text-center w-[90%] text-lg text-[#f06] flex items-center justify-center"
+      (click)="signUp()"
+    >
+      <mat-spinner *ngIf="loading" [diameter]="30" class="m-4"></mat-spinner>
+      sign Up
+    </button>
+    <div class="flex items-center m-6">
+      <span class="text-lg font-bold m-1">already a member? </span>
+      <span
+        class="text-lg font-bold m-1 text-blue-600 cursor-pointer"
+        (click)="chnageRoute('/login')"
+        >Login</span
+      >
+    </div>
+  </div>
+  <div
+    class="flex md:hidden text-black grad w-[90%] h-[100%] flex-col justify-start items-center m-2 rounded-md"
+  ></div>
+</div>

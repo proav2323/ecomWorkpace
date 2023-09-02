@@ -1,0 +1,94 @@
+<div class="flex flex-col justify-start items-center h-full">
+  <div
+    class="text-black grad w-[50%] h-[fit-content] flex-col justify-start items-center hidden md:flex m-2 rounded-md"
+  >
+    <span class="text-[2rem] font-bold mt-6 m-2">Welcome Back Here</span>
+    <span class="text-[1rem] text-gray-900 mt-6 mb-4 m-2"
+      >Login to your account</span
+    >
+    <span
+      class="text-red-200 bg-red-950 p-4 m-2 w-[90%] text-center rounded-lg"
+      *ngIf="error !== ''"
+      >{{ error }}</span
+    >
+    <form class="m-10 w-[90%]" [formGroup]="formGroup">
+      <span class="text-lg m-2 font-bold">E-mail</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'email'"
+        [placeholder]="'Your Email'"
+        [controlName]="'email'"
+        [formGroup]="formGroup"
+      />
+      <span class="text-lg m-2 font-bold">Password</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'password'"
+        [placeholder]="'Your Password'"
+        [controlName]="'password'"
+        [formGroup]="formGroup"
+      />
+    </form>
+    <button
+      class="button-grad p-4 rounded-md text-center w-[90%] text-lg text-[#f06] flex items-center justify-center"
+      (click)="login()"
+    >
+      <mat-spinner *ngIf="loading" [diameter]="30" class="m-4"></mat-spinner>
+      Login
+    </button>
+    <div class="flex items-center m-6">
+      <span class="text-lg font-bold m-1">not a member yet? </span>
+      <span
+        class="text-lg font-bold m-1 text-blue-600 cursor-pointer"
+        routerLink="/signUp"
+        >Sign Up</span
+      >
+    </div>
+  </div>
+  <div
+    class="flex md:hidden text-black grad w-[90%] h-[fit-content] flex-col justify-start items-center m-2 rounded-md"
+  >
+    <span class="text-[1rem] font-bold mt-6 m-2">Welcome Back Here</span>
+    <span class="text-[1rem] text-gray-900 mt-6 mb-4 m-2"
+      >Login to your account</span
+    >
+    <span
+      class="text-red-200 bg-red-950 p-4 m-2 w-[90%] text-center rounded-lg"
+      *ngIf="error !== ''"
+      >{{ error }}</span
+    >
+    <form class="m-10 w-[90%]" [formGroup]="formGroup">
+      <span class="text-lg m-2 font-bold">E-mail</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'email'"
+        [placeholder]="'Your Email'"
+        [controlName]="'email'"
+        [formGroup]="formGroup"
+      />
+      <span class="text-lg m-2 font-bold">Password</span>
+      <app-input
+        [class]="'w-full p-4 rounded-md outline-none border-none mt-2 mb-2'"
+        [type]="'password'"
+        [placeholder]="'Your Password'"
+        [controlName]="'password'"
+        [formGroup]="formGroup"
+      />
+    </form>
+    <button
+      class="button-grad p-4 rounded-md text-center w-[90%] text-lg text-[#f06] flex items-center justify-center"
+      (click)="login()"
+    >
+      <mat-spinner *ngIf="loading" [diameter]="30" class="m-4"></mat-spinner>
+      Login
+    </button>
+    <div class="flex items-center m-6">
+      <span class="text-md font-bold m-1">not a member yet? </span>
+      <span
+        class="text-md font-bold m-1 text-blue-600 cursor-pointer"
+        (click)="chnageRoute('/signUp')"
+        >Sign Up</span
+      >
+    </div>
+  </div>
+</div>
