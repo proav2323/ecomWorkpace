@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    "./projects/ecom-app/**/*.{html,ts}",
+    "./projects/ecom-lib/**/*.{html,ts}",
+    "./projects/admin-ecom/**/*.{html,ts}",
   ],
   theme: {
     extend: {},
