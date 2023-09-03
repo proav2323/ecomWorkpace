@@ -5,7 +5,10 @@ export const verifyToken = (req, res, next) => {
     if (!token) return res.status(401).json({ message: 'Access token missing' });
 
     Jwt.verify(token, JwtSecret, (err, decoded) => {
-        if (err) return res.status(403).json({ message: 'Invalid token' });
+        if (err)  {
+          console.log(err)
+        return res.status(403).json({ message: 'Invalid token' });
+        }
         req.user = decoded;
         next();
     });

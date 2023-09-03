@@ -55,11 +55,12 @@ app.post("/auth/login", async (req, res) => {
   if (email !== '' && password !== "") {
      const data = await usersColl.findOne({email: email});
      if (data !== null) {
-      let comparePassword = await bcrypt.compare(password, data.password, (err) => {
+      let comparePassword = await bcrypt.compare(password, data.password, (err, same) => {
         if (err) {
           return res.status(404).send("wrong password")
         }
-                let token = Jwt.sign({userId: data._id, email: data.email, role: data.role}, JwtSecret, {expiresIn: "10d"})
+        if (same) {
+                       let token = Jwt.sign({userId: data._id, email: data.email, role: data.role}, JwtSecret, {expiresIn: "10d"})
         res.status(202).json({
           success: true,
           data: {
@@ -68,6 +69,9 @@ app.post("/auth/login", async (req, res) => {
             token: token
           }
         })
+        } else {
+          return res.status(404).send("wrong password")
+        }
       });
      } else {
       res.status(404).send("user not found")
@@ -341,6 +345,7 @@ app.delete("/deleteUser/:id", verifyUserAdmin ,async(req, res) => {
 
 app.post("/addOrder", verifyToken ,async (req, res) => {
 const {cart, orderedBy, orderedOn, price, paymentMethod, cardDetails, address, delivered} = req.body;
+console.log(delivered);
 if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== "" && cardDetails && address && delivered !== null && delivered !== undefined) {
    const newData = {cart: cart, orderedBy: orderedBy, orderedOn: orderedOn, price: price, paymentMethod: paymentMethod, cardDetails: cardDetails, address: address, delivered: delivered}
    const data = await Orderscoll.insertOne(newData);
@@ -436,17 +441,44 @@ app.get("/decodeToken/:token", (req, res) => {
 app.get("/adminCheck", (req, res) => {
         const token = req.headers['authorization'];
        console.log(token)
-    if (!token) return res.status(202).send(false);
+    if (!token) return res.status(402).send(false);
 
     Jwt.verify(token, JwtSecret, (err, decoded) => {
         console.log(err);
-        if (err) return res.status(202).send(false)
+        if (err) return res.status(402).send(false)
         if (decoded.role === "admin") {
         return res.status(202).send(true);
         } else {
           return res.status(403).send("not a admin")
         }
     });
+})
+
+app.get("/getDashbourdOrders", async(req, res) => {
+  const data = [];
+for (let i = 0; i < 7; i++) {
+    let date = new Date();
+  const cursor = Orderscoll.find({
+          orderedOn: {$gte: new Date(new Date(Date.now()).setDate(date.getDate() - i)),$lt: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(23, 59, 59))}
+  })
+  console.log({
+        $gte: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i))),
+        $lt: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(23, 59, 59)),
+  })
+  const day = new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(0o1, 20, 59));
+    const values = [];
+  for await (const doc of cursor) {
+  values.push(doc);
+}
+  const realdata = {data: values, day: day}
+  console.log(realdata);
+  data.push(realdata);
+}
+if (data) {
+  res.status(202).json({success: true, data: data})
+} else {
+  res.status(503).send("internal error")
+}
 })
 
 //  listening on port

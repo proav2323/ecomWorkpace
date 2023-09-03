@@ -19,3 +19,6 @@ export const getUsersOrders = 'getUserOrders';
 export const logincheckToken = 'logincheckToken';
 export const decodeToken = 'decodeToken';
 export const adminCheck = 'adminCheck';
+export const adminAppUrl = 'http://localhost:4300/';
+export const ecomAppUrl = 'http://localhost:4200/';
+export const getDashbourdOrders = 'getDashbourdOrders';

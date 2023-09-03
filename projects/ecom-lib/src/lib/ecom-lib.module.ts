@@ -5,6 +5,10 @@ import { RegisterComponent } from './pages/register/register.component';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -13,7 +17,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     RegisterComponent,
     InputComponent,
   ],
-  imports: [FormsModule, ReactiveFormsModule, MatProgressSpinnerModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    BrowserModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    HttpClientJsonpModule,
+    HttpClientModule,
+  ],
   exports: [EcomLibComponent],
 })
 export class EcomLibModule {}

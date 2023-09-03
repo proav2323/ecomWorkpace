@@ -1,6 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -14,7 +12,11 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { adminCheck, baseUrl } from '../utils/constants';
+import { ecomAppUrl } from '../utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +40,9 @@ export class AdminnGuard
     const token = localStorage.getItem('token');
     console.log(token);
     if (token === null) {
-      return true;
+      this.router.navigateByUrl('/login');
+      this.snackbar.open('login first', 'got it');
+      return false;
     } else {
       const queryParams: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -47,13 +51,24 @@ export class AdminnGuard
       const data = this.HttpClient.get<boolean>(`${baseUrl}${adminCheck}`, {
         headers: queryParams,
       });
-      data.subscribe((data) => {
-        if (data) {
-        } else {
-          this.snackbar.open('you are the allowed in this route', 'got it');
-          this.router.navigateByUrl('/');
+      data.subscribe(
+        (data) => {
+          if (data) {
+          }
+        },
+        (Err) => {
+          if (Err.error === 'not a admin') {
+            this.snackbar.open(
+              'you are not the allowed in this route',
+              'got it'
+            );
+            this.router.navigateByUrl(ecomAppUrl);
+          } else {
+            this.router.navigateByUrl('/login');
+            this.snackbar.open('login again', 'got it');
+          }
         }
-      });
+      );
       return data;
     }
   }

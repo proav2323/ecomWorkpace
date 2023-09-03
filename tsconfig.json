@@ -8,7 +8,8 @@
     "paths": {
       "ecomLib": [
         "dist/ecom-lib"
-      ]
+      ],
+      "@angular/*": [ "../node_modules/@angular/*" ]
     },
     "strict": true,
     "noImplicitOverride": true,

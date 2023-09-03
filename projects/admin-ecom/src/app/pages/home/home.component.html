@@ -1,0 +1,77 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav sideGrad"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar
+      ><span class="text-white font-bold">Ecom App</span></mat-toolbar
+    >
+    <mat-divider></mat-divider>
+    <div class="flex flex-col justify-between items-center w-full h-[90vh]">
+      <div class="flex flex-col justify-start items-center w-full">
+        <button
+          class="flex flex-row justify-center items-center w-[90%] text-white font-bold text-[17px] mt-3 mb-1 transition-all ease-in-out duration-500 rounded-md hove hover:bg-gray-400"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="m-2 text-white">home</mat-icon> Dashbourd
+        </button>
+        <button
+          class="flex flex-row justify-center items-center w-[90%] text-white font-bold text-[17px] mt-3 mb-1 transition-all ease-in-out duration-500 rounded-md hover"
+          routerLink="/users"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="m-2 text-white">group</mat-icon> Users
+        </button>
+        <button
+          class="flex flex-row justify-center items-center w-[90%] text-white font-bold text-[17px] mt-3 mb-1 transition-all ease-in-out duration-500 rounded-md hover"
+          routerLink="/products"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="m-2 text-white">outbox</mat-icon> Products
+        </button>
+        <button
+          class="flex flex-row justify-center items-center w-[90%] text-white font-bold text-[17px] mt-3 mb-1 transition-all ease-in-out duration-500 rounded-md hover"
+          routerLink="/orders"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="m-2 text-white">check_circle</mat-icon>
+          orders
+        </button>
+      </div>
+      <div class="flex flex-col items-center justify-start w-full">
+        <mat-divider></mat-divider>
+        <button
+          class="flex flex-row justify-center items-center w-[90%] text-white font-bold text-[17px] mt-3 mb-1 transition-all ease-in-out duration-500 rounded-md hover"
+        >
+          <mat-icon class="m-2 text-white">logout</mat-icon>
+          Logout
+        </button>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="navbarGrad text-white sticky top-0 z-[100]">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        class="text-white"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon" class="text-white"
+          >menu</mat-icon
+        >
+      </button>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
