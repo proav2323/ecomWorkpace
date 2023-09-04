@@ -24,6 +24,7 @@ const upload = Multer();
     let usersColl = db.collection("Users");
     let productsCool = db.collection("Products");
     let Orderscoll = db.collection("Orders");
+    let categoriesColl = db.collection("Categories");
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -35,6 +36,7 @@ async function run() {
     usersColl = db.collection("Users");
     productsCool = db.collection("Products");
     Orderscoll = db.collection("Orders");
+    let categoriesColl = db.collection("Categories")
     await db.command({ping: 1});
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } catch (err) {
@@ -492,6 +494,61 @@ if (data) {
 }
 })
 
+app.get("/getAllCategories", (req, res) => {
+       const users = [];
+  const data = categoriesColl.find();
+  if (data) {
+for await (const doc of data) {
+  users.push(doc);
+}
+res.status(202).json({
+  success: true,
+  data: users
+});
+  } else {
+    res.status(502).send("internal error");
+  }
+})
+
+app.post("/addCategories", async(req, res) => {
+  const {name, imgUrl} = req.data;
+  if (name && imgUrl) {
+     const newData = {name: name, imgUrl: imgUrl}
+     const data = await categoriesColl.insertOne(newData);
+     if (data) {
+      res.status(202).json({
+        success: true,
+        data: "categories added"
+      })
+     } else {
+      return res.status(503).send("internal error")
+     }
+  } else {
+    return res.status(403).send('send values');
+  }
+})
+
+app.put("/updateCategory/:id", (req, res) => {
+  const {id} = req.params;
+  const {name, imgUrl} = req.body;
+  if (name && imgUrl) {
+      const newData = {$set: {
+        name: name,
+        imgUrl: imgUrl
+      }};
+      const data = categoriesColl.updateOne({}, newData, {_id: id});
+      if (data) {
+        res.status(202).json({
+          success: true,
+          messages: "categoty updated"
+        })
+      } else {
+        return  res.status(501).send("Internal Error");
+      }
+  } else {
+    return res.status(403).send('send values');
+  }
+})
 //  listening on port
 app.listen(3000, () => {
   run().catch(console.dir);

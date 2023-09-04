@@ -22,3 +22,6 @@ export const adminCheck = 'adminCheck';
 export const adminAppUrl = 'http://localhost:4300/';
 export const ecomAppUrl = 'http://localhost:4200/';
 export const getDashbourdOrders = 'getDashbourdOrders';
+export const getAllCategories = 'getAllCategories';
+export const addCategories = 'addCategories';
+export const updateCategories = 'updateCategory';
