@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { order } from '../models/order';
 import { BehaviorSubject } from 'rxjs';
-import { baseUrl } from '../utils/constants';
+import { baseUrl, getAllOrders } from '../utils/constants';
 import { getDashbourdOrders } from '../utils/constants';
 
 @Injectable({
@@ -22,6 +22,27 @@ export class OrdersService {
     data.subscribe(
       (data) => {
         this.$dashbourdOrders.next(data.data);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  getAllOrders(token: string) {
+    const queryParams: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    const data = this.httpClient.get<{
+      success: boolean;
+      data: order[];
+    }>(`${baseUrl}${getAllOrders}`, {
+      headers: queryParams,
+    });
+    data.subscribe(
+      (data) => {
+        this.$orders.next(data.data);
+        console.log(data);
       },
       (err) => {
         console.log(err);

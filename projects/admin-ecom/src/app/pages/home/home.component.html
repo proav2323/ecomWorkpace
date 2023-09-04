@@ -71,7 +71,61 @@
           >menu</mat-icon
         >
       </button>
+      <span class="flex md:hidden flex-1"></span>
+      <div
+        class="flex-1 flex-row justify-center items-center h-[60px] w-full hidden md:flex"
+      >
+        <input
+          type="text"
+          placeholder="Search Products"
+          class="p-2 w-[30%] rounded-bl-md rounded-tl-md outline-none h-[40px] text-black"
+        />
+        <button
+          class="w-fit h-[40px] bg-slate-300 text-black font-bold p-2 rounded-tr-md rounded-br-md"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+      <div
+        class="flex flex-row justify-center items-center cursor-pointer"
+        *ngIf="user !== null"
+      >
+        <button
+          class="m-2 p-2 bg-none w-fit h-fit text-white flex md:hidden"
+          (click)="toggleMobileSearch(true)"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+        <img src="{{ user.imgUrl }}" class="w-10 h-10 m-2 rounded-full" />
+        <span class="text-md font-bold text-white m-1 hidden md:flex">{{
+          user.name
+        }}</span>
+        <mat-icon class="m-1 text-white">arrow_drop_down</mat-icon>
+      </div>
     </mat-toolbar>
+    <div
+      class="h-[fit-content] sticky top-[60px] flex w-full flex-col navbarGrad"
+      *ngIf="mobileSearch"
+    >
+      <div class="flex flex-1 justify-between items-center m-2">
+        <span>Search</span>
+        <mat-icon class="text-white" (click)="toggleMobileSearch(false)"
+          >close</mat-icon
+        >
+      </div>
+      <div class="flex flex-1 items-center justify-center m-2">
+        <input
+          type="text"
+          placeholder="Search Products"
+          class="p-2 w-[100%] flex-1 rounded-bl-md rounded-tl-md outline-none h-[40px] text-black"
+        />
+        <button
+          class="w-fit h-[40px] bg-slate-300 text-black font-bold p-2 rounded-tr-md rounded-br-md"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

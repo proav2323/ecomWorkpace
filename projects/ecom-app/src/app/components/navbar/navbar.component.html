@@ -70,12 +70,44 @@
   <div>
     <span class="text-2xl m-2 p-2" routerLink="/">Ecom App</span>
   </div>
-  <button
-    class="m-2 p-2 bg-none w-fit h-fit text-white"
-    [mat-menu-trigger-for]="mobileMenu"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
+  <div class="flex flex-row items-center justify-center">
+    <button
+      class="m-2 p-2 bg-none w-fit h-fit text-white"
+      (click)="toggleMobileSearch(true)"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <button
+      class="m-2 p-2 bg-none w-fit h-fit text-white"
+      [mat-menu-trigger-for]="mobileMenu"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div
+  class="h-[fit-content] sticky top-[60px] flex w-full flex-col grad"
+  *ngIf="mobileSearch"
+>
+  <div class="flex flex-1 justify-between items-center m-2">
+    <span>Search</span>
+    <mat-icon class="text-white" (click)="toggleMobileSearch(false)"
+      >close</mat-icon
+    >
+  </div>
+  <div class="flex flex-1 items-center justify-center m-2">
+    <input
+      type="text"
+      placeholder="Search Products"
+      class="p-2 w-[100%] flex-1 rounded-bl-md rounded-tl-md outline-none h-[40px] text-black"
+    />
+    <button
+      class="w-fit h-[40px] bg-slate-300 text-black font-bold p-2 rounded-tr-md rounded-br-md"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
 </div>
 
 <mat-menu #mobileMenu="matMenu">

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   baseUrl,
+  decodeToken,
   getUser,
   login,
   signUp,
@@ -158,5 +159,21 @@ export class AuthService {
   }
   chnageRoute(route: string) {
     this.router.navigateByUrl(route);
+  }
+  decodeToken(token: string) {
+    if (token) {
+      const data = this.httpClient.get<{ id: string }>(
+        `${baseUrl}${decodeToken}/${token}`
+      );
+      data.subscribe(
+        (data) => {
+          this.getUser(data.id);
+          console.log(data.id);
+        },
+        (Err) => {
+          console.log(Err);
+        }
+      );
+    }
   }
 }

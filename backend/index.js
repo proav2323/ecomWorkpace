@@ -195,10 +195,19 @@ if (result) {
 app.get("/getAllProducts", async (req, res) => {
   const products = [];
   const data = productsCool.find();
+  const watch = productsCool.watch([], { fullDocument: "updateLookup" })
   if (data) {
 for await (const doc of data) {
   products.push(doc);
 }
+watch.on("change", next => {
+  products.push(next);
+  res.status(202).json({
+  success: true,
+  data: products
+});
+})
+
 res.status(202).json({
   success: true,
   data: products
@@ -258,8 +267,8 @@ app.get("/getSingleProduct/:id", async(req, res) => {
 })
 
 app.put("/updateProduct", verifyUserAdmin ,async (req, res) => {
-  const {name, images, description, price, category, id, ratings} = req.body;
-  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings) {
+  const {name, images, description, price, category, id, ratings, stock} = req.body;
+  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings && stock) {
      const newData = {
       $set: {
       name: name,
@@ -267,7 +276,8 @@ app.put("/updateProduct", verifyUserAdmin ,async (req, res) => {
       description: description,
       price: price,
       category: category,
-      ratings: ratings
+      ratings: ratings,
+      stock: stock
       },}
      const data = await productsCool.updateOne({}, newData, {_id: id});
      if (data.matchedCount !== 0) {
@@ -344,10 +354,10 @@ app.delete("/deleteUser/:id", verifyUserAdmin ,async(req, res) => {
 })
 
 app.post("/addOrder", verifyToken ,async (req, res) => {
-const {cart, orderedBy, orderedOn, price, paymentMethod, cardDetails, address, delivered} = req.body;
+const {cart, orderedBy, orderedOn, price, paymentMethod, cardDetails, address, delivered, status} = req.body;
 console.log(delivered);
-if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== "" && cardDetails && address && delivered !== null && delivered !== undefined) {
-   const newData = {cart: cart, orderedBy: orderedBy, orderedOn: orderedOn, price: price, paymentMethod: paymentMethod, cardDetails: cardDetails, address: address, delivered: delivered}
+if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== "" && cardDetails && address && delivered !== null && delivered !== undefined && status) {
+   const newData = {cart: cart, orderedBy: orderedBy, orderedOn: orderedOn, price: price, paymentMethod: paymentMethod, cardDetails: cardDetails, address: address, delivered: delivered, status: status}
    const data = await Orderscoll.insertOne(newData);
    if (data) {
       res.status(202).json({success: true, data: `order added with ${data.insertedId} id`})
@@ -361,11 +371,12 @@ if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== ""
 
 app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
-  const {delivered} = req.body;
-  if (delivered !== null && delivered !== undefined && id) {
+  const {delivered, status} = req.body;
+  if (delivered !== null && delivered !== undefined && id && status) {
     const newData = {
       $set: {
-        delivered: delivered
+        delivered: delivered,
+        status: status,
       }
     }
     const data = await Orderscoll.updateOne({}, newData, {_id: id});

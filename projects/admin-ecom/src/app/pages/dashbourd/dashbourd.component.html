@@ -25,7 +25,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content
-          class="dashboard-card-content flex w-full h-full justify-center items-center"
+          class="dashboard-card-content flex w-full h-full justify-center items-center text-center"
         >
           <div
             class="ChartDiv"
@@ -35,6 +35,13 @@
             <canvas id="myChart" class="w-full h-[95%] p-2" #myLinechart>{{
               linechart === null ? "" : linechart
             }}</canvas>
+          </div>
+          <div class="flex-1 w-full h-full justify-center items-center mt-20">
+            <span
+              class="text-2xl font-bold m-2"
+              *ngIf="card.data === 'price'"
+              >{{ totalPrice | currency }}</span
+            >
           </div>
         </mat-card-content>
       </mat-card>

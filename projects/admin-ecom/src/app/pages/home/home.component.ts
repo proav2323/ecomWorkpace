@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { OrdersService } from 'ecomLib';
+import { AuthService, OrdersService, User } from 'ecomLib';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +12,22 @@ import { OrdersService } from 'ecomLib';
 export class HomeComponent {
   private breakpointObserver = inject(BreakpointObserver);
   type: string = 'daily';
-  constructor(private orderService: OrdersService) {
-    let date = new Date();
-    if (this.type === 'daily') {
-      this.orderService.getDashbourdOrders();
+  user: User | null = null;
+  mobileSearch!: boolean;
+  $mobileSearch: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  constructor(
+    private orderService: OrdersService,
+    private authService: AuthService
+  ) {
+    this.$mobileSearch.subscribe((data) => {
+      this.mobileSearch = data;
+    });
+    this.authService.$user.subscribe((data) => {
+      this.user = data;
+    });
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.authService.decodeToken(token);
     }
   }
 
@@ -25,4 +37,8 @@ export class HomeComponent {
       map((result) => result.matches),
       shareReplay()
     );
+
+  toggleMobileSearch(value: boolean) {
+    this.$mobileSearch.next(value);
+  }
 }
