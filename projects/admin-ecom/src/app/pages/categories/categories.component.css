@@ -1,0 +1,8 @@
+.grad {
+  background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #d080c9 100%);
+}
+.bg-grad {
+background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #ff00ec 100%);
+}

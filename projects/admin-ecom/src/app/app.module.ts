@@ -21,9 +21,22 @@ import { HomeComponent } from './pages/home/home.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { AddCategoryComponent } from './pages/add-category/add-category.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProductsComponent } from './pages/products/products.component';
 
 @NgModule({
-  declarations: [AppComponent, DashbourdComponent, AddProductComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    DashbourdComponent,
+    AddProductComponent,
+    HomeComponent,
+    CategoriesComponent,
+    AddCategoryComponent,
+    ProductsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -46,6 +59,8 @@ import { MatListModule } from '@angular/material/list';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

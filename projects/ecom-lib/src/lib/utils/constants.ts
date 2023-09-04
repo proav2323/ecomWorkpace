@@ -25,3 +25,4 @@ export const getDashbourdOrders = 'getDashbourdOrders';
 export const getAllCategories = 'getAllCategories';
 export const addCategories = 'addCategories';
 export const updateCategories = 'updateCategory';
+export const deleteCategory = 'deleteCategory';

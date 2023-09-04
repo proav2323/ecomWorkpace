@@ -1,0 +1,42 @@
+<div class="flex flex-col justify-start items-center">
+  <div
+    class="mt-4 mb-4 flex flex-row justify-between items-center pt-1 pb-1 pr-2 pl-2 shadow-xl w-[98%] grad tetx-white rounded-md"
+  >
+    <span class="font-bold text-lg m-2 text-white">Add A category</span>
+    <button
+      class="pt-1 pb-1 pl-2 pr-2 text-lg m-2 bg-grad flex flex-row justify-center items-center text-white rounded-md"
+      (click)="opneDialog()"
+    >
+      <mat-icon class="m-3 text-white">add</mat-icon> Add Category
+    </button>
+  </div>
+  <div
+    class="flex flex-col justify-start items-center m-2 p-2 rounded-md shadow-lg w-[98%]"
+    *ngIf="categories.length !== 0"
+  >
+    <div *ngFor="let category of categories" class="w-[98%]">
+      <div class="flex flex-row justify-between items-center w-[98%]">
+        <div class="flex flex-row justify-center items-center">
+          <img src="{{ category.imgUrl }}" class="m-1 w-10 h-10 rounded-full" />
+          <span class="m-2 text-lg font-bold">{{ category.name }}</span>
+        </div>
+        <div class="flex justify-center items-center">
+          <button
+            class="pt-1 pb-1 pr-2 pl-2 text-black m-2 rounded-md flex flex-row justify-center items-center"
+          >
+            <mat-icon class="m-3">edit</mat-icon>
+          </button>
+          <button
+            class="pt-1 pb-1 pr-2 pl-2 text-black m-2 rounded-md flex flex-row justify-center items-center"
+            (click)="delete(category._id)"
+          >
+            <mat-icon class="m-3">remove</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="m-3 text-lg font-bold" *ngIf="categories.length === 0"
+    >No Categories</span
+  >
+</div>

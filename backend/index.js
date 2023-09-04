@@ -268,8 +268,8 @@ app.get("/getSingleProduct/:id", async(req, res) => {
   }
 })
 
-app.put("/updateProduct", verifyUserAdmin ,async (req, res) => {
-  const {name, images, description, price, category, id, ratings, stock} = req.body;
+app.put("/updateProduct", verifyToken ,async (req, res) => {
+  const {name, images, description, price, category, id, ratings, reviews ,stock} = req.body;
   if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings && stock) {
      const newData = {
       $set: {
@@ -279,7 +279,8 @@ app.put("/updateProduct", verifyUserAdmin ,async (req, res) => {
       price: price,
       category: category,
       ratings: ratings,
-      stock: stock
+      stock: stock,
+      reviews: reviews
       },}
      const data = await productsCool.updateOne({}, newData, {_id: id});
      if (data.matchedCount !== 0) {
@@ -494,7 +495,7 @@ if (data) {
 }
 })
 
-app.get("/getAllCategories", (req, res) => {
+app.get("/getAllCategories", verifyUserAdmin ,async(req, res) => {
        const users = [];
   const data = categoriesColl.find();
   if (data) {
@@ -510,8 +511,8 @@ res.status(202).json({
   }
 })
 
-app.post("/addCategories", async(req, res) => {
-  const {name, imgUrl} = req.data;
+app.post("/addCategories", verifyUserAdmin ,async(req, res) => {
+  const {name, imgUrl} = req.body;
   if (name && imgUrl) {
      const newData = {name: name, imgUrl: imgUrl}
      const data = await categoriesColl.insertOne(newData);
@@ -528,7 +529,7 @@ app.post("/addCategories", async(req, res) => {
   }
 })
 
-app.put("/updateCategory/:id", (req, res) => {
+app.put("/updateCategory/:id", verifyUserAdmin ,(req, res) => {
   const {id} = req.params;
   const {name, imgUrl} = req.body;
   if (name && imgUrl) {
@@ -547,6 +548,23 @@ app.put("/updateCategory/:id", (req, res) => {
       }
   } else {
     return res.status(403).send('send values');
+  }
+})
+
+app.delete("/deleteCategory/:id", verifyUserAdmin ,async(req, res) => {
+    const {id} = req.params;
+  if (id) {
+          const data = await categoriesColl.deleteOne({}, {_id: id});
+   if (data) {
+    res.status(202).json({
+      success: true,
+      data: "category deleted"
+    })
+   } else {
+    res.status(503).send("something went wrong")
+   }
+  } else {
+  res.status(403).send("please send a valid id")
   }
 })
 //  listening on port

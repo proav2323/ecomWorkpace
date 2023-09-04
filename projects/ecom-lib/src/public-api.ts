@@ -20,3 +20,6 @@ export * from './lib/models/cartItms';
 export * from './lib/models/order';
 export * from './lib/models/user';
 export * from './lib/components/input/input.component';
+export * from './lib/models/categories';
+export * from './lib/services/categories.service';
+export * from './lib/models/reviews';
