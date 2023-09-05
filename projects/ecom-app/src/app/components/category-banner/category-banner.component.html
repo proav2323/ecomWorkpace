@@ -1,0 +1,33 @@
+<div class="mt-20 mb-20 flex flex-col justify-start items-center p-2 w-full">
+  <span class="m-5 text-2xl font-bold text-orange-900"
+    >Featured Categories</span
+  >
+  <div
+    class="flex flex-row justify-center items-center w-full overflow-y-scroll noScroll overflow-x-hidden"
+  >
+    <span
+      (click)="getCategoryProducts('all')"
+      class="text-xl text-orange-700 m-4 cursor-pointer font-bold {{
+        categoryName === 'all' ? 'underline' : ''
+      }}"
+      >All</span
+    >
+    <span
+      (click)="getCategoryProducts(category.name)"
+      class="text-xl text-orange-700 m-4 cursor-pointer font-bold {{
+        categoryName === category.name ? 'underline' : ''
+      }}"
+      *ngFor="let category of categories"
+      >{{ category.name }}</span
+    >
+  </div>
+  <div class="flex flex-row flex-wrap m-5 p-5 justify-center items-center">
+    <app-product-card
+      *ngFor="let proeduct of products"
+      [product]="proeduct"
+    ></app-product-card>
+  </div>
+  <button class="text-2xl m-3 p-4 bg-orange-800 text-white rounded-md">
+    Browse more
+  </button>
+</div>

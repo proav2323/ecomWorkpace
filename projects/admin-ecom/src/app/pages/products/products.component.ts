@@ -20,6 +20,7 @@ export class ProductsComponent {
   delete(id: string) {
     const token = localStorage.getItem('token');
     if (token) {
+      this.productsService.deleteCategory(id, token);
     }
   }
 }

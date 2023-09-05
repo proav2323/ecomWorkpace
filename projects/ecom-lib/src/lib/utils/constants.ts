@@ -26,3 +26,5 @@ export const getAllCategories = 'getAllCategories';
 export const addCategories = 'addCategories';
 export const updateCategories = 'updateCategory';
 export const deleteCategory = 'deleteCategory';
+export const getBannerProduct = 'bannerProduct';
+export const getCategoryProducts = 'getCategoryProducts';

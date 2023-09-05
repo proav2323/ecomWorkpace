@@ -10,4 +10,6 @@ export interface product {
   category: string;
   reviews: reviews[];
   stock: number;
+  isBanner: boolean;
+  bannerText: string;
 }

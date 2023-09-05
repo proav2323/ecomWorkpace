@@ -20,5 +20,6 @@ export interface order {
     postalCode: string;
   };
   delivered: boolean;
+  status: string;
   _id: string;
 }

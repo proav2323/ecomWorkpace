@@ -23,6 +23,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CategoryBannerComponent } from './components/category-banner/category-banner.component';
+import { BannerComponent } from './components/banner/banner.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     ProductDetailComponent,
     ProductCardComponent,
     ReviewCardComponent,
+    CategoryBannerComponent,
+    BannerComponent,
   ],
   imports: [
     BrowserModule,

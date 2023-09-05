@@ -178,11 +178,13 @@ app.get("/getUser/:id", async (req, res) => {
   }
 })
 
-app.post("/addProduct", verifyUserAdmin,async (req, res) => {
-const {name, images, description, createdOn, price, category, reviews, ratings, stock} = req.body;
-if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && createdOn !== null && price !== 0 && category !== "" && ratings && stock) {
-const newProduct = {name: name, description: description, images: images, createdOn: createdOn, price: price, category: category, reviews: reviews, ratings: ratings, stcok: stock}
+app.post("/addProduct", verifyUserAdmin, async (req, res) => {
+const {name, images, description, createdOn, price, category, reviews, ratings, stock, isBanner, bannerText} = req.body;
+if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && createdOn !== null && price !== 0 && category !== "" && ratings !== null && ratings !== undefined && stock !== 0 && isBanner !== undefined && isBanner !== null && bannerText) {
+  // const newDate = JSON.parse(createdOn);
+const newProduct = {name: name, description: description, images: images, createdOn: new Date(createdOn), price: price, category: category, reviews: reviews, ratings: ratings, stcok: stock, isBanner: isBanner, bannerText: bannerText}
 const result = await productsCool.insertOne(newProduct);
+// console.log(newDate)
 if (result) {
   console.log(result.insertedId);
   res.status(202).json({success: true, data: `product added with ${result.insertedId} id`})
@@ -197,18 +199,10 @@ if (result) {
 app.get("/getAllProducts", async (req, res) => {
   const products = [];
   const data = productsCool.find();
-  const watch = productsCool.watch([], { fullDocument: "updateLookup" })
   if (data) {
 for await (const doc of data) {
   products.push(doc);
 }
-watch.on("change", next => {
-  products.push(next);
-  res.status(202).json({
-  success: true,
-  data: products
-});
-})
 
 res.status(202).json({
   success: true,
@@ -269,8 +263,8 @@ app.get("/getSingleProduct/:id", async(req, res) => {
 })
 
 app.put("/updateProduct", verifyToken ,async (req, res) => {
-  const {name, images, description, price, category, id, ratings, reviews ,stock} = req.body;
-  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings && stock) {
+  const {name, images, description, price, category, id, ratings, reviews ,stock, isBanner, bannerText} = req.body;
+  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings && stock && bannerText) {
      const newData = {
       $set: {
       name: name,
@@ -280,7 +274,9 @@ app.put("/updateProduct", verifyToken ,async (req, res) => {
       category: category,
       ratings: ratings,
       stock: stock,
-      reviews: reviews
+      reviews: reviews,
+      isBanner: isBanner,
+      bannerText: bannerText
       },}
      const data = await productsCool.updateOne({}, newData, {_id: id});
      if (data.matchedCount !== 0) {
@@ -293,7 +289,7 @@ app.put("/updateProduct", verifyToken ,async (req, res) => {
   }
 });
 
-app.delete("/deleteProdcuct/:id", verifyUserAdmin ,async (req, res) => {
+app.delete("/deleteProduct/:id", verifyUserAdmin ,async (req, res) => {
   const {id} = req.params;
   if (id) {
    const data = await productsCool.deleteOne({}, {_id: id});
@@ -495,7 +491,7 @@ if (data) {
 }
 })
 
-app.get("/getAllCategories", verifyUserAdmin ,async(req, res) => {
+app.get("/getAllCategories", verifyToken ,async(req, res) => {
        const users = [];
   const data = categoriesColl.find();
   if (data) {
@@ -566,6 +562,45 @@ app.delete("/deleteCategory/:id", verifyUserAdmin ,async(req, res) => {
   } else {
   res.status(403).send("please send a valid id")
   }
+})
+
+app.get("/bannerProduct", async(req, res) => {
+    const data = await productsCool.findOne({isBanner: true})
+    if (data) {
+    res.status(202).json({success: true, data: data})
+ } else {
+  res.status(404).send(`no banner product found`)
+ }
+})
+app.get("/getCategoryProducts/:categoryName", async (req, res) => {
+ const {categoryName} = req.params;
+ if (categoryName) {
+  if (categoryName === "all") {
+  const cursor = productsCool.find().limit(5);
+  const data = [];
+  for await (let doc of cursor) {
+   data.push(doc);
+  }
+  if (data) {
+   res.status(202).json({success: true, data: data})
+  } else {
+    res.status(502).send("internal error")
+  }
+  } else {
+  const cursor = productsCool.find({category: categoryName}).limit(5);
+  const data = [];
+  for await (let doc of cursor) {
+   data.push(doc);
+  }
+  if (data) {
+   res.status(202).json({success: true, data: data})
+  } else {
+    res.status(502).send("internal error")
+  }
+  }
+ } else {
+  res.status(403).send("send a category name")
+ }
 })
 //  listening on port
 app.listen(3000, () => {

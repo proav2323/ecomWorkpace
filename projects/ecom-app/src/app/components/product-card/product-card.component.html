@@ -1,1 +1,14 @@
-<p>product-card works!</p>
+<div
+  class="flex flex-col justify-center items-center w-[200px] m-4 rounded-md bg-white pb-2 cursor-pointer"
+  routerLink="/productDetails/{{ product._id }}"
+>
+  <img src="{{ product.images[0] }}" class="w-full h-[250px] rounded-md" />
+  <span class="m-2 text-lg font-bold text-black">{{ product.name }}</span>
+  <span class="m-2 text-md text-gray-500">{{ product.price | currency }}</span>
+  <button
+    class="flex flex-row justify-center items-center m-2 bg-orange-700 p-2 text-white rounded-xl cursor-pointer"
+    (click)="addToCart()"
+  >
+    <mat-icon class="m-2 text-white">shopping_cart</mat-icon>Add To Cart
+  </button>
+</div>

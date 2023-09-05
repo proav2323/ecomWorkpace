@@ -7,7 +7,9 @@ import {
   baseUrl,
   deleteProduct,
   getAllProducts,
+  getCategoryProducts,
   updateProduct,
+  getBannerProduct,
 } from '../utils/constants';
 import { product } from '../models/Product';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,6 +21,11 @@ import { reviews } from '../models/reviews';
 export class ProductsService {
   $product: BehaviorSubject<product[]> = new BehaviorSubject<product[]>([]);
   $loading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  $categoryProducts: BehaviorSubject<product[]> = new BehaviorSubject<
+    product[]
+  >([]);
+  $bannerProduct: BehaviorSubject<product | null> =
+    new BehaviorSubject<product | null>(null);
   constructor(
     private httpClient: HttpClient,
     private Snackbar: MatSnackBar,
@@ -49,6 +56,34 @@ export class ProductsService {
     );
   }
 
+  getCategoryProducts(categoryName: string) {
+    const data = this.httpClient.get<{ success: boolean; data: product[] }>(
+      `${baseUrl}${getCategoryProducts}/${categoryName}`
+    );
+    data.subscribe(
+      (data) => {
+        this.$categoryProducts.next(data.data);
+      },
+      (Err) => {
+        console.log(Err);
+      }
+    );
+  }
+
+  getBannerProduct() {
+    const data = this.httpClient.get<{ success: boolean; data: product }>(
+      `${baseUrl}${getBannerProduct}`
+    );
+    data.subscribe(
+      (data) => {
+        this.$bannerProduct.next(data.data);
+      },
+      (Err) => {
+        console.log(Err);
+      }
+    );
+  }
+
   addProduct(
     token: string,
     name: string,
@@ -57,13 +92,16 @@ export class ProductsService {
     price: number,
     category: string,
     stock: number,
-    error: BehaviorSubject<string>
+    error: BehaviorSubject<string>,
+    isBanner: boolean,
+    bannerText: string
   ) {
     this.$loading.next(true);
     const queryParams: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: token,
     });
+
     const data = this.httpClient.post<{ success: boolean; data: string }>(
       `${baseUrl}${addProduct}`,
       {
@@ -73,9 +111,11 @@ export class ProductsService {
         price: price,
         category: category,
         stock: stock,
-        createdOn: new Date(Date.now()),
+        createdOn: Date.now(),
         reviews: [],
-        rating: 0,
+        ratings: 0,
+        isBanner: isBanner,
+        bannerText: bannerText,
       },
       { headers: queryParams }
     );
@@ -112,7 +152,9 @@ export class ProductsService {
     ratings: number,
     reviews: reviews[],
     stock: number,
-    error: BehaviorSubject<string> = new BehaviorSubject('')
+    error: BehaviorSubject<string> = new BehaviorSubject(''),
+    isBanner: boolean,
+    bannerText: string
   ) {
     this.$loading.next(true);
     const queryParams: HttpHeaders = new HttpHeaders({
@@ -131,6 +173,8 @@ export class ProductsService {
         ratings: ratings,
         reviews: reviews,
         stock: stock,
+        isBanner: isBanner,
+        bannerText: bannerText,
       },
       { headers: queryParams }
     );
@@ -166,7 +210,7 @@ export class ProductsService {
       Authorization: token,
     });
     const data = this.httpClient.delete<{ success: boolean; messages: string }>(
-      `${baseUrl}${deleteProduct}/${id}`,
+      `${baseUrl}${deleteProduct}${id}`,
       { headers: queryParams }
     );
     data.subscribe(

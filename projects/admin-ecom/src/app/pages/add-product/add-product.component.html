@@ -1,1 +1,96 @@
-<div class="flex flex-col justify-center items-center w-full"></div>
+<div class="flex flex-col justify-center items-center w-full">
+  <form
+    [formGroup]="formGroup"
+    class="flex flex-col justify-center items-center w-full h-full"
+  >
+    <span class="m-2 font-bold text-lg text-red-700" *ngIf="error !== ''">{{
+      error
+    }}</span>
+    <span class="m-2 font-bold text-md">Product Images</span>
+    <div
+      class="flex flex-row flex-wrap justify-center items-center w-full h-fit"
+    >
+      <input type="file" hidden (change)="uploadImage($event)" #pick />
+      <button
+        class="h-40 flex flex-col justify-center items-center m-2 bg-black text-white pt-1 pb-1 pr-2 pl-2 rounded-md"
+        (click)="pick.click()"
+      >
+        <div class="flex justify-center items-center w-full m-2">
+          <mat-spinner
+            *ngIf="imgLoading"
+            [diameter]="30"
+            class="m-2"
+          ></mat-spinner>
+          <mat-icon class="m-2 text-white">upload_file</mat-icon>
+        </div>
+        add product image
+      </button>
+      <div *ngFor="let image of images" class="relative">
+        <img src="{{ image }}" class="h-40 m-2 w-40" />
+        <mat-icon
+          class="absolute top-2 right-2 cursor-pointer"
+          (click)="removeImg(image)"
+          >delete</mat-icon
+        >
+      </div>
+    </div>
+    <div class="flex flex-row justify-center items-center w-full m-1">
+      <input
+        class="w-[50%] m-2 pt-2 pb-2 pr-2 pl-2 text-white bg-black rounded-md"
+        placeholder="Product Name"
+        formControlName="name"
+        type="text"
+      />
+      <textarea
+        class="w-[50%] m-2 pt-2 pb-2 pr-2 pl-2 text-white bg-black rounded-md"
+        placeholder="product Description"
+        formControlName="description"
+        type="text"
+        rows="5"
+      ></textarea>
+    </div>
+    <div class="flex flex-row justify-center items-center w-full m-1">
+      <input
+        class="w-[50%] m-2 pt-2 pb-2 pr-2 pl-2 text-white bg-black rounded-md"
+        placeholder="Product Price"
+        type="number"
+        formControlName="price"
+      />
+      <input
+        class="w-[50%] m-2 pt-2 pb-2 pr-2 pl-2 text-white bg-black rounded-md"
+        placeholder="product InStock"
+        formControlName="stock"
+        type="number"
+      />
+    </div>
+    <div class="flex flex-row justify-center items-center w-full m-1">
+      <input
+        class="w-[50%] m-2 pt-2 pb-2 pr-2 pl-2 text-white bg-black rounded-md"
+        placeholder="product Banner Text"
+        formControlName="bannerText"
+        type="text"
+      />
+      <mat-form-field class="w-[50%] m-2">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option
+            [value]="category.name"
+            *ngFor="let category of categories"
+            >{{ category.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-slide-toggle [(ngModel)]="isBanner" class="m-2"
+      >is Banner</mat-slide-toggle
+    >
+    <button
+      class="flex flex-row justify-center items-center w-[98%] mt-2 mb-2 pt-1 pb-1 pr-2 pl-2 bg-black text-white rounded-md"
+      (click)="addProduct()"
+    >
+      <mat-spinner class="m-2" [diameter]="30" *ngIf="loading"></mat-spinner>
+      <mat-icon class="m-2 text-white">add</mat-icon>
+      Add Product
+    </button>
+  </form>
+</div>

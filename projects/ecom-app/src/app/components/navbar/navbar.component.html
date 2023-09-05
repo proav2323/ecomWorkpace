@@ -1,5 +1,9 @@
 <div
-  class="hidden md:flex flex-row justify-between items-center p-2 h-[60px] w-full text-black nav sticky top-0 grad z-[100]"
+  class=" {{
+    isBackground
+      ? 'grad hidden md:flex flex-row justify-between items-center p-2 h-[60px] w-full text-black nav sticky top-0  z-[100]'
+      : 'bg-transparent hidden md:flex flex-row justify-between items-center p-2 h-[60px] w-full text-black nav sticky top-0  z-[100]'
+  }}"
 >
   <div>
     <span class="text-2xl text-white m-2 p-2 cursor-pointer" routerLink="/"
@@ -65,7 +69,11 @@
   </div>
 </div>
 <div
-  class="flex md:hidden flex-row justify-between items-center p-2 bg-white backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200 h-[60px] w-full text-white sticky top-0 z-[100]"
+  class=" {{
+    isBackground
+      ? 'grad flex md:hidden flex-row justify-between items-center p-2 h-[60px] w-full text-white sticky top-0 z-[100]'
+      : 'bg-transparent flex md:hidden flex-row justify-between items-center p-2 h-[60px] w-full text-white sticky top-0 z-[100]'
+  }}"
 >
   <div>
     <span class="text-2xl m-2 p-2" routerLink="/">Ecom App</span>
