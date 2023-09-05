@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService, User, adminAppUrl } from 'ecomLib';
+import { AuthService, CartService, User, adminAppUrl, cart } from 'ecomLib';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
@@ -16,10 +16,12 @@ export class NavbarComponent {
   $mobileSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   $background: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isBackground: boolean = false;
+  cart!: cart | null;
 
   constructor(
     private authService: AuthService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private cartService: CartService
   ) {
     this.authService.$user.subscribe((data) => {
       this.user = data;
@@ -29,6 +31,9 @@ export class NavbarComponent {
     });
     this.$background.subscribe((data) => {
       this.isBackground = data;
+    });
+    this.cartService.$cart.subscribe((data) => {
+      this.cart = data;
     });
     window.addEventListener('scroll', (e) => {
       if (window.scrollY < 10) {

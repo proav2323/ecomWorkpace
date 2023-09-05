@@ -45,7 +45,7 @@
       [routerLink]="'cart'"
       [routerLinkActive]="'active'"
       [matTooltip]="'cart'"
-      matBadge="8"
+      matBadge="{{ cart !== null ? cart.totalQty : 0 }}"
       matBadgePosition="before"
       matBadgeColor="accent"
     >
@@ -132,7 +132,10 @@
     <mat-icon>checkout</mat-icon> <span>your orders</span>
   </button>
   <button mat-menu-item routerLink="/cart" class="w-[50%]">
-    <mat-icon matBadge="8" matBadgeColor="accent" matBadgePosition="before"
+    <mat-icon
+      matBadge="{{ cart !== null ? cart.totalQty : 0 }}"
+      matBadgeColor="accent"
+      matBadgePosition="before"
       >shopping_cart</mat-icon
     >
     <span>cart</span>
