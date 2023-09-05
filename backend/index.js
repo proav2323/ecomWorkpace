@@ -182,7 +182,7 @@ app.post("/addProduct", verifyUserAdmin, async (req, res) => {
 const {name, images, description, createdOn, price, category, reviews, ratings, stock, isBanner, bannerText} = req.body;
 if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && createdOn !== null && price !== 0 && category !== "" && ratings !== null && ratings !== undefined && stock !== 0 && isBanner !== undefined && isBanner !== null && bannerText) {
   // const newDate = JSON.parse(createdOn);
-const newProduct = {name: name, description: description, images: images, createdOn: new Date(createdOn), price: price, category: category, reviews: reviews, ratings: ratings, stcok: stock, isBanner: isBanner, bannerText: bannerText}
+const newProduct = {name: name, description: description, images: images, createdOn: new Date(createdOn), price: price, category: category, reviews: reviews, ratings: ratings, stock: stock, isBanner: isBanner, bannerText: bannerText}
 const result = await productsCool.insertOne(newProduct);
 // console.log(newDate)
 if (result) {
@@ -262,9 +262,9 @@ app.get("/getSingleProduct/:id", async(req, res) => {
   }
 })
 
-app.put("/updateProduct", verifyToken ,async (req, res) => {
+app.put("/updateProduct", async (req, res) => {
   const {name, images, description, price, category, id, ratings, reviews ,stock, isBanner, bannerText} = req.body;
-  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== "" && ratings && stock && bannerText) {
+  if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && price !== 0 && category !== "" && id !== ""  && bannerText) {
      const newData = {
       $set: {
       name: name,

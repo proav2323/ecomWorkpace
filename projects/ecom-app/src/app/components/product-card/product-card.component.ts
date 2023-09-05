@@ -9,22 +9,28 @@ import { CartService, ProductsService, product } from 'ecomLib';
 })
 export class ProductCardComponent {
   @Input() product!: product;
+  @Input() category?: string;
   cartLoading!: boolean;
   constructor(
     private cartService: CartService,
     private proeductService: ProductsService,
     private snackbar: MatSnackBar
-  ) {}
+  ) {
+    this.cartService.$cartLoading.subscribe((data) => {
+      this.cartLoading = data;
+    });
+  }
   addToCart() {
     if (this.product.stock >= 1) {
       this.cartService.addItemToCart(
         this.product._id,
         1,
         this.product.price,
-        this.product
+        this.product,
+        this.category
       );
     } else {
-      this.snackbar.open('currenlty out of stock');
+      this.snackbar.open('currenlty out of stock', 'close');
     }
   }
 }

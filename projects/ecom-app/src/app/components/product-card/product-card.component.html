@@ -9,6 +9,7 @@
     class="flex flex-row justify-center items-center m-2 bg-orange-700 p-2 text-white rounded-xl cursor-pointer"
     (click)="addToCart()"
   >
-    <mat-icon class="m-2 text-white">shopping_cart</mat-icon>Add To Cart
+    <mat-spinner [diameter]="30" class="m-2" *ngIf="cartLoading"></mat-spinner>
+    <mat-icon class="m-2 text-white">shopping_cart</mat-icon> Add To Cart
   </button>
 </div>

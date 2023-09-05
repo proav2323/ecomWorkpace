@@ -12,14 +12,17 @@ export class CartService {
   $cart: BehaviorSubject<cart | null> = new BehaviorSubject(
     JSON.parse(JSON.stringify(localStorage.getItem('cart'))) ?? null
   );
+  $cartLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(private productsService: ProductsService) {}
 
   addItemToCart(
     productId: string,
     quanitit: number,
     price: number,
-    product: product
+    product: product,
+    categoryName?: string
   ) {
+    this.$cartLoading.next(true);
     if (this.$cart.getValue() !== null && this.$cart.getValue() !== undefined) {
       const oldCart = this.$cart.getValue()!;
       const item = oldCart.cartItems.find(
@@ -42,8 +45,46 @@ export class CartService {
         this.$cart.next(newCart);
         localStorage.setItem('cart', JSON.stringify(newCart));
         console.log(cart);
+        if (categoryName) {
+          this.productsService.updateProduct(
+            productId,
+            product.name,
+            product.description,
+            product.images,
+            product.price,
+            product.category,
+            product.ratings,
+            product.reviews,
+            product.stock - quanitit,
+            new BehaviorSubject(''),
+            product.isBanner,
+            product.bannerText,
+            categoryName
+          );
+        } else {
+          this.productsService.updateProduct(
+            productId,
+            product.name,
+            product.description,
+            product.images,
+            product.price,
+            product.category,
+            product.ratings,
+            product.reviews,
+            product.stock - quanitit,
+            new BehaviorSubject(''),
+            product.isBanner,
+            product.bannerText
+          );
+        }
+        this.$cartLoading.next(false);
       } else {
-        this.updateItemFromCart(item.productId, item.quantity + 1, product);
+        this.updateItemFromCart(
+          item.productId,
+          item.quantity + quanitit,
+          product,
+          categoryName
+        );
       }
     } else {
       const items: cartItem[] = [];
@@ -58,16 +99,57 @@ export class CartService {
       const newCart = new cart(totalPrice, items, totalQty);
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
+      if (categoryName) {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock - quanitit,
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText,
+          categoryName
+        );
+      } else {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock - quanitit,
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText
+        );
+      }
       console.log(cart);
+      this.$cartLoading.next(false);
     }
   }
 
-  removeItemFromCart(productId: string, product: product) {
+  removeItemFromCart(
+    productId: string,
+    product: product,
+    categoryName?: string
+  ) {
     if (this.$cart.getValue() !== null && this.$cart.getValue() !== undefined) {
+      this.$cartLoading.next(true);
       const oldCart = this.$cart.getValue()!;
       const items: cartItem[] = [];
       let totalPrice = 0;
       let totalQty = 0;
+      const item = oldCart.cartItems.find(
+        (data) => data.productId === productId
+      );
       const newItems = oldCart.cartItems.filter(
         (data) => data.productId !== productId
       );
@@ -82,11 +164,51 @@ export class CartService {
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
       console.log(cart);
+      if (categoryName) {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock + item!.quantity,
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText,
+          categoryName
+        );
+      } else {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock + item!.quantity,
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText
+        );
+      }
+
+      this.$cartLoading.next(false);
     }
   }
 
-  updateItemFromCart(productId: string, qty: number, product: product) {
+  updateItemFromCart(
+    productId: string,
+    qty: number,
+    product: product,
+    categoryName?: string
+  ) {
     if (this.$cart.getValue() !== null && this.$cart.getValue() !== undefined) {
+      this.$cartLoading.next(true);
       const oldCart = this.$cart.getValue()!;
       const items: cartItem[] = [];
       let totalPrice = 0;
@@ -94,6 +216,7 @@ export class CartService {
       const index = oldCart.cartItems.findIndex(
         (data) => data.productId === productId
       );
+      const prevQty = oldCart.cartItems[index].quantity;
       oldCart.cartItems[index].quantity = qty;
       oldCart.cartItems.forEach((data) => {
         items.push(data);
@@ -106,6 +229,39 @@ export class CartService {
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
       console.log(cart);
+      if (categoryName) {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock - (qty - prevQty),
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText,
+          categoryName
+        );
+      } else {
+        this.productsService.updateProduct(
+          productId,
+          product.name,
+          product.description,
+          product.images,
+          product.price,
+          product.category,
+          product.ratings,
+          product.reviews,
+          product.stock - qty,
+          new BehaviorSubject(''),
+          product.isBanner,
+          product.bannerText
+        );
+      }
+      this.$cartLoading.next(false);
     }
   }
 }

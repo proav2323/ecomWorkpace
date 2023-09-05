@@ -25,6 +25,7 @@
     <app-product-card
       *ngFor="let proeduct of products"
       [product]="proeduct"
+      [category]="categoryName"
     ></app-product-card>
   </div>
   <button class="text-2xl m-3 p-4 bg-orange-800 text-white rounded-md">

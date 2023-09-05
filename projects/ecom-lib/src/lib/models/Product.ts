@@ -12,4 +12,5 @@ export interface product {
   stock: number;
   isBanner: boolean;
   bannerText: string;
+  ratings: number;
 }

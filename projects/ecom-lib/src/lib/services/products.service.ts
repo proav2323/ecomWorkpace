@@ -32,18 +32,12 @@ export class ProductsService {
     private Router: Router
   ) {}
 
-  getAllProducts(token: string) {
+  getAllProducts() {
     this.$loading.next(true);
-    const queryParams: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: token,
-    });
     const data = this.httpClient.get<{
       success: boolean;
       data: product[];
-    }>(`${baseUrl}${getAllProducts}`, {
-      headers: queryParams,
-    });
+    }>(`${baseUrl}${getAllProducts}`);
     data.subscribe(
       (data) => {
         this.$product.next(data.data);
@@ -122,7 +116,7 @@ export class ProductsService {
     data.subscribe(
       (data) => {
         this.Snackbar.open('product added', 'close');
-        this.getAllProducts(token);
+        this.getAllProducts();
         this.$loading.next(false);
         this.Router.navigateByUrl('/products');
       },
@@ -143,7 +137,6 @@ export class ProductsService {
 
   updateProduct(
     id: string,
-    token: string,
     name: string,
     description: string,
     images: string[],
@@ -154,13 +147,10 @@ export class ProductsService {
     stock: number,
     error: BehaviorSubject<string> = new BehaviorSubject(''),
     isBanner: boolean,
-    bannerText: string
+    bannerText: string,
+    categoryName?: string
   ) {
     this.$loading.next(true);
-    const queryParams: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: token,
-    });
     const data = this.httpClient.put<{ success: boolean; message: string }>(
       `${baseUrl}${updateProduct}`,
       {
@@ -175,14 +165,16 @@ export class ProductsService {
         stock: stock,
         isBanner: isBanner,
         bannerText: bannerText,
-      },
-      { headers: queryParams }
+      }
     );
 
     data.subscribe(
       (data) => {
         this.Snackbar.open('product updated', 'close');
-        this.getAllProducts(token);
+        this.getAllProducts();
+        if (categoryName) {
+          this.getCategoryProducts(categoryName);
+        }
         this.Router.navigateByUrl('/products');
         this.$loading.next(false);
       },
@@ -215,7 +207,7 @@ export class ProductsService {
     );
     data.subscribe(
       (data) => {
-        this.getAllProducts(token);
+        this.getAllProducts();
         this.$loading.next(false);
       },
       (Err) => {
