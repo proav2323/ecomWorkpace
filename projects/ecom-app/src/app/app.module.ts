@@ -25,6 +25,10 @@ import { MatListModule } from '@angular/material/list';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CategoryBannerComponent } from './components/category-banner/category-banner.component';
 import { BannerComponent } from './components/banner/banner.component';
+import { SearchProductsComponent } from './pages/search-products/search-products.component';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { ProductsComponent } from './pages/products/products.component';
+import { SearchProductCardComponent } from './components/search-product-card/search-product-card.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,9 @@ import { BannerComponent } from './components/banner/banner.component';
     ReviewCardComponent,
     CategoryBannerComponent,
     BannerComponent,
+    SearchProductsComponent,
+    ProductsComponent,
+    SearchProductCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +64,7 @@ import { BannerComponent } from './components/banner/banner.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   CategoriesService,
   ProductsService,
@@ -20,7 +21,8 @@ export class CategoryBannerComponent {
   categoryName: string = '';
   constructor(
     private categoriesService: CategoriesService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private Router: Router
   ) {
     this.productsService.$categoryProducts.subscribe((data) => {
       this.products = data;
@@ -39,5 +41,10 @@ export class CategoryBannerComponent {
   getCategoryProducts(category: string) {
     this.productsService.getCategoryProducts(category);
     this.$categoryName.next(category);
+  }
+  goProducts() {
+    this.Router.navigate(['/products'], {
+      queryParams: { category: this.categoryName },
+    });
   }
 }

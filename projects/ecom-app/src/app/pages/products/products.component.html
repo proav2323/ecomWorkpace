@@ -1,0 +1,9 @@
+<div
+  class="flex flex-row justify-center items-center mt-3 mb-3 flex-wrap w-full"
+>
+  <app-product-card
+    [product]="product"
+    [category]="category"
+    *ngFor="let product of products"
+  ></app-product-card>
+</div>

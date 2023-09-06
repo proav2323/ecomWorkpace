@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService, CartService, User, adminAppUrl, cart } from 'ecomLib';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -17,11 +19,15 @@ export class NavbarComponent {
   $background: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isBackground: boolean = false;
   cart!: cart | null;
+  formGroup = new FormGroup({
+    search: new FormControl('', [Validators.required]),
+  });
 
   constructor(
     private authService: AuthService,
     private breakpointObserver: BreakpointObserver,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {
     this.authService.$user.subscribe((data) => {
       this.user = data;
@@ -46,5 +52,15 @@ export class NavbarComponent {
   }
   toggleMobileSearch(value: boolean) {
     this.$mobileSearch.next(value);
+  }
+  search(e: any) {
+    console.log('hiihdghdg');
+    if (this.formGroup.valid) {
+      if (e.keyCode === 13) {
+        this.router.navigate(['search'], {
+          queryParams: { search: this.formGroup.controls.search.value! },
+        });
+      }
+    }
   }
 }

@@ -50,7 +50,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatIconModule,
     MatDividerModule,
     HttpClientModule,
     HttpClientJsonpModule,

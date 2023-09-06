@@ -10,6 +10,7 @@ import {
   getCategoryProducts,
   updateProduct,
   getBannerProduct,
+  getSearchProducts,
 } from '../utils/constants';
 import { product } from '../models/Product';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -219,6 +220,18 @@ export class ProductsService {
           this.$loading.next(false);
         }
       }
+    );
+  }
+  getSearchProducts(search: string) {
+    const data = this.httpClient.get<{ success: boolean; data: product[] }>(
+      `${baseUrl}${getSearchProducts}/${search}`
+    );
+
+    data.subscribe(
+      (data) => {
+        this.$product.next(data.data);
+      },
+      (err) => {}
     );
   }
 }

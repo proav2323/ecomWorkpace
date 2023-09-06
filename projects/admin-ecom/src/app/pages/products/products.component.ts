@@ -14,7 +14,7 @@ export class ProductsComponent {
     });
     const token = localStorage.getItem('token');
     if (token) {
-      this.productsService.getAllProducts(token);
+      this.productsService.getAllProducts();
     }
   }
   delete(id: string) {

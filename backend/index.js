@@ -13,7 +13,7 @@ const uri = "mongodb+srv://anshvishesh03:anshvishesh2007@cluster0.bkcfmqp.mongod
 const client = new MongoClient(uri,  {
         serverApi: {
             version: ServerApiVersion.v1,
-            strict: true,
+            strict: false,
             deprecationErrors: true,
         }
     }
@@ -601,6 +601,23 @@ app.get("/getCategoryProducts/:categoryName", async (req, res) => {
  } else {
   res.status(403).send("send a category name")
  }
+})
+
+app.get("/getSearchProducts/:search", async(req, res) => {
+ const result = productsCool.createIndex({name: "text", category: "text", description: "text"})
+ console.log(result);
+  const {search} = req.params;
+  if (search) {
+    const query = {$text: {$search: search}}
+   const cursor = productsCool.find(query);
+   const data = [];
+   for await (let doc of cursor) {
+    data.push(doc)
+   }
+   res.status(202).json({success: true, data: data})
+  } else {
+    res.status(403).send("send a search")
+  }
 })
 //  listening on port
 app.listen(3000, () => {

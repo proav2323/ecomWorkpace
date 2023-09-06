@@ -1,0 +1,9 @@
+<div class="flex flex-row flex-wrap w-full h-fit justify-center items-center">
+  <app-product-card
+    [product]="product"
+    *ngFor="let product of products"
+  ></app-product-card>
+  <span *ngIf="products.length === 0" class="font-bold m-2 text-lg"
+    >No Products Found</span
+  >
+</div>

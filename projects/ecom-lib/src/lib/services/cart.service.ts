@@ -9,11 +9,16 @@ import { ProductsService } from './products.service';
   providedIn: 'root',
 })
 export class CartService {
-  $cart: BehaviorSubject<cart | null> = new BehaviorSubject<cart | null>(
-    (JSON.parse(JSON.stringify(localStorage.getItem('cart'))) as cart) ?? null
-  );
+  cart: string | null = localStorage.getItem('cart');
+  $cart: BehaviorSubject<cart | null>;
   $cartLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService) {
+    if (this.cart) {
+      this.$cart = new BehaviorSubject(JSON.parse(this.cart));
+    } else {
+      this.$cart = new BehaviorSubject<cart | null>(null);
+    }
+  }
 
   addItemToCart(
     productId: string,

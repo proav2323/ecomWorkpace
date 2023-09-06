@@ -28,3 +28,4 @@ export const updateCategories = 'updateCategory';
 export const deleteCategory = 'deleteCategory';
 export const getBannerProduct = 'bannerProduct';
 export const getCategoryProducts = 'getCategoryProducts';
+export const getSearchProducts = 'getSearchProducts';

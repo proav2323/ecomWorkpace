@@ -9,6 +9,7 @@ import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CommonModule } from '@angular/common';
     BrowserAnimationsModule,
     HttpClientJsonpModule,
     HttpClientModule,
+    MatIconModule,
   ],
   exports: [EcomLibComponent],
 })

@@ -2,7 +2,10 @@
   class="flex flex-col justify-center items-center w-[200px] m-4 rounded-md bg-white pb-2 cursor-pointer"
   routerLink="/productDetails/{{ product._id }}"
 >
-  <img src="{{ product.images[0] }}" class="w-full h-[250px] rounded-md" />
+  <img
+    src="{{ product.images[0] }}"
+    class="w-full h-[250px] rounded-tr-md rounded-tl-md"
+  />
   <span class="m-2 text-lg font-bold text-black">{{ product.name }}</span>
   <span class="m-2 text-md text-gray-500">{{ product.price | currency }}</span>
   <button
