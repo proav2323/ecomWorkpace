@@ -9,8 +9,8 @@ import { ProductsService } from './products.service';
   providedIn: 'root',
 })
 export class CartService {
-  $cart: BehaviorSubject<cart | null> = new BehaviorSubject(
-    JSON.parse(JSON.stringify(localStorage.getItem('cart'))) ?? null
+  $cart: BehaviorSubject<cart | null> = new BehaviorSubject<cart | null>(
+    (JSON.parse(JSON.stringify(localStorage.getItem('cart'))) as cart) ?? null
   );
   $cartLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(private productsService: ProductsService) {}
