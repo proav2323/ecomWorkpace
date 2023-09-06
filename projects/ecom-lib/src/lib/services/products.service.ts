@@ -176,7 +176,6 @@ export class ProductsService {
         if (categoryName) {
           this.getCategoryProducts(categoryName);
         }
-        this.Router.navigateByUrl('/products');
         this.$loading.next(false);
       },
       (err) => {

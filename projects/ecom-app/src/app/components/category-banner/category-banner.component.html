@@ -23,7 +23,7 @@
   </div>
   <div class="flex flex-row flex-wrap m-5 p-5 justify-center items-center">
     <app-product-card
-      *ngFor="let proeduct of products"
+      *ngFor="let proeduct of products; let i = index"
       [product]="proeduct"
       [category]="categoryName"
     ></app-product-card>

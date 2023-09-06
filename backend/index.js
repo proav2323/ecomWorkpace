@@ -8,6 +8,7 @@ import { JwtSecret, verifyToken, verifyUserAdmin } from './constants.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {storage} from './firebase.js'
 import  Multer  from 'multer';
+import { v4 } from 'uuid';
 
 const uri = "mongodb+srv://anshvishesh03:anshvishesh2007@cluster0.bkcfmqp.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri,  {
@@ -182,7 +183,7 @@ app.post("/addProduct", verifyUserAdmin, async (req, res) => {
 const {name, images, description, createdOn, price, category, reviews, ratings, stock, isBanner, bannerText} = req.body;
 if (images !== undefined && images !== null && images.length !== 0 && name !== "" && description !== "" && createdOn !== null && price !== 0 && category !== "" && ratings !== null && ratings !== undefined && stock !== 0 && isBanner !== undefined && isBanner !== null && bannerText) {
   // const newDate = JSON.parse(createdOn);
-const newProduct = {name: name, description: description, images: images, createdOn: new Date(createdOn), price: price, category: category, reviews: reviews, ratings: ratings, stock: stock, isBanner: isBanner, bannerText: bannerText}
+const newProduct = {name: name, description: description, images: images, createdOn: new Date(createdOn), price: price, category: category, reviews: reviews, ratings: ratings, stock: stock, isBanner: isBanner, bannerText: bannerText, _id: v4()}
 const result = await productsCool.insertOne(newProduct);
 // console.log(newDate)
 if (result) {
@@ -278,7 +279,7 @@ app.put("/updateProduct", async (req, res) => {
       isBanner: isBanner,
       bannerText: bannerText
       },}
-     const data = await productsCool.updateOne({}, newData, {_id: id});
+     const data = await productsCool.updateOne({_id: id}, newData, {});
      if (data.matchedCount !== 0) {
       res.status(201).json({success: true, message: "product updated successfully"})
      } else {
@@ -292,7 +293,7 @@ app.put("/updateProduct", async (req, res) => {
 app.delete("/deleteProduct/:id", verifyUserAdmin ,async (req, res) => {
   const {id} = req.params;
   if (id) {
-   const data = await productsCool.deleteOne({}, {_id: id});
+   const data = await productsCool.deleteOne({_id: id},);
    if (data) {
     res.status(202).json({
       success: true,
@@ -320,7 +321,7 @@ const newData = {
   }
 }
 console.log(id);
-const data = await usersColl.updateOne({}, newData, {_id: id});
+const data = await usersColl.updateOne({_id: id}, newData,);
 if (data.modifiedCount !== 0) {
 res.status(202).json({
   success: true,
@@ -338,7 +339,7 @@ res.status(202).json({
 app.delete("/deleteUser/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
   if (id) {
-       const data = await usersColl.deleteOne({}, {_id: id});
+       const data = await usersColl.deleteOne({_id: id});
    if (data) {
     res.status(202).json({
       success: true,
@@ -378,7 +379,7 @@ app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
         status: status,
       }
     }
-    const data = await Orderscoll.updateOne({}, newData, {_id: id});
+    const data = await Orderscoll.updateOne({_id: id}, newData);
     if (data.modifiedCount !== 0) {
         res.status(202).json({success: true, data: "ordered updated"})
     } else {

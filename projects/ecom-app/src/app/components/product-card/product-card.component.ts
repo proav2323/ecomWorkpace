@@ -21,6 +21,7 @@ export class ProductCardComponent {
     });
   }
   addToCart() {
+    console.log(this.product._id);
     if (this.product.stock >= 1) {
       this.cartService.addItemToCart(
         this.product._id,

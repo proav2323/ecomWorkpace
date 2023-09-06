@@ -81,7 +81,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <mat-slide-toggle [(ngModel)]="isBanner" class="m-2"
+    <mat-slide-toggle [checked]="isBanner" (change)="setValue($event)"
       >is Banner</mat-slide-toggle
     >
     <button

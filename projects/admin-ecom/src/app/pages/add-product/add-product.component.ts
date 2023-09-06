@@ -17,7 +17,7 @@ export class AddProductComponent {
   $error: BehaviorSubject<string> = new BehaviorSubject('');
   error!: string;
   token = localStorage.getItem('token');
-  isBanner: boolean = false;
+  isBanner = false;
   formGroup: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -90,5 +90,8 @@ export class AddProductComponent {
     } else {
       this.$error.next('fill the fields first');
     }
+  }
+  setValue(e: any) {
+    this.isBanner = e.checked;
   }
 }
