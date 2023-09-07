@@ -1,1 +1,15 @@
-<p>review-card works!</p>
+<div
+  class="w-full flex flex-row justify-center items-center bg-white rounded-md mt-1 mb-1 p-2"
+>
+  <img
+    src="{{ reviewUser.imgUrl }}"
+    class="m-1 text-lg w-10 h-10 rounded-full"
+  />
+  <div class="flex flex-col justify-center items-center flex-1 w-full">
+    <div class="flex flex-row justify-center items-center">
+      <mat-icon *ngFor="let start of reviews">star</mat-icon>
+    </div>
+    <span>{{ reviewUser.name }}</span>
+    <span>{{ review.text }}</span>
+  </div>
+</div>

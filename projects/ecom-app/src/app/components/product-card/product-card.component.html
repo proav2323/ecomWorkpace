@@ -1,6 +1,7 @@
 <div
   class="flex flex-col justify-center items-center w-[200px] m-4 rounded-md bg-white pb-2 cursor-pointer"
-  routerLink="/productDetails/{{ product._id }}"
+  routerLink="/productDetails"
+  [queryParams]="{ id: product._id }"
 >
   <img
     src="{{ product.images[0] }}"

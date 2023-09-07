@@ -11,6 +11,7 @@ import {
   updateProduct,
   getBannerProduct,
   getSearchProducts,
+  getSingleProduct,
 } from '../utils/constants';
 import { product } from '../models/Product';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,6 +23,8 @@ import { reviews } from '../models/reviews';
 export class ProductsService {
   $product: BehaviorSubject<product[]> = new BehaviorSubject<product[]>([]);
   $loading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  $singleProduct: BehaviorSubject<product | null> =
+    new BehaviorSubject<product | null>(null);
   $categoryProducts: BehaviorSubject<product[]> = new BehaviorSubject<
     product[]
   >([]);
@@ -231,6 +234,19 @@ export class ProductsService {
         this.$product.next(data.data);
       },
       (err) => {}
+    );
+  }
+  getSingleProduct(id: string) {
+    const data = this.httpClient.get<{ success: boolean; data: product }>(
+      `${baseUrl}${getSingleProduct}${id}`
+    );
+    data.subscribe(
+      (data) => {
+        this.$singleProduct.next(data.data);
+      },
+      (err) => {
+        this.$singleProduct.next(null);
+      }
     );
   }
 }

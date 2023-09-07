@@ -249,7 +249,7 @@ res.status(202).json({
 app.get("/getSingleProduct/:id", async(req, res) => {
   const {id} = req.params;
   if (id) {
-      const data = await productsCool.findOne({}, {_id: id});
+      const data = await productsCool.findOne({_id: id},);
       if (data) {
         res.status(202).json({
           success: true,
@@ -393,7 +393,7 @@ app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
 app.delete("deleteOrder/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
   if (id) {
-          const data = await Orderscoll.deleteOne({}, {_id: id});
+          const data = await Orderscoll.deleteOne({_id: id});
    if (data) {
     res.status(202).json({
       success: true,
@@ -534,7 +534,7 @@ app.put("/updateCategory/:id", verifyUserAdmin ,(req, res) => {
         name: name,
         imgUrl: imgUrl
       }};
-      const data = categoriesColl.updateOne({}, newData, {_id: id});
+      const data = categoriesColl.updateOne( {_id: id}, newData,);
       if (data) {
         res.status(202).json({
           success: true,
@@ -551,7 +551,7 @@ app.put("/updateCategory/:id", verifyUserAdmin ,(req, res) => {
 app.delete("/deleteCategory/:id", verifyUserAdmin ,async(req, res) => {
     const {id} = req.params;
   if (id) {
-          const data = await categoriesColl.deleteOne({}, {_id: id});
+          const data = await categoriesColl.deleteOne({_id: id},);
    if (data) {
     res.status(202).json({
       success: true,

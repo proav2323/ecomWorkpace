@@ -9,6 +9,7 @@ import {
   RegisterComponent,
 } from 'ecomLib';
 import { SearchProductsComponent } from './pages/search-products/search-products.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'signUp', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'products', component: ProductsComponent },
   { path: 'search', component: SearchProductsComponent },
+  { path: 'productDetails', component: ProductDetailComponent },
 ];
 
 @NgModule({

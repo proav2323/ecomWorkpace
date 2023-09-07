@@ -176,4 +176,19 @@ export class AuthService {
       );
     }
   }
+  getReviewUser(id: string) {
+    const data = this.httpClient.get<{
+      success: boolean;
+      data: {
+        email: string;
+        name: string;
+        imgUrl: string;
+        role: string;
+        password: string;
+        wishlist: { productId: string }[];
+        _id: string;
+      };
+    }>(`${baseUrl}${getUser}/${id}`);
+    return data;
+  }
 }
