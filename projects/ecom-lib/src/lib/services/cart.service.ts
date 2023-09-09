@@ -142,4 +142,8 @@ export class CartService {
     }
     this.$cartLoading.next(false);
   }
+  clearCart() {
+    localStorage.removeItem('cart');
+    this.$cart.next(null);
+  }
 }

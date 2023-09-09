@@ -31,6 +31,8 @@ import { ProductsComponent } from './pages/products/products.component';
 import { SearchProductCardComponent } from './components/search-product-card/search-product-card.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { InputComponent } from 'ecomLib';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { CartItemComponent } from './components/cart-item/cart-item.component';
     SearchProductCardComponent,
     CartComponent,
     CartItemComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

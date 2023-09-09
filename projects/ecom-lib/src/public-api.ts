@@ -23,3 +23,4 @@ export * from './lib/components/input/input.component';
 export * from './lib/models/categories';
 export * from './lib/services/categories.service';
 export * from './lib/models/reviews';
+export * from './lib/gaurds/user.guard';

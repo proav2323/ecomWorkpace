@@ -3,12 +3,12 @@
   class="flex flex-col justify-center items-center w-full h-full"
 >
   <div
-    class="flex w-full flex-col md:flex-row justify-start items-center md:justify-center md:h-[90vh] h-full"
+    class="flex w-full flex-col md:flex-row md:justify-center h-full justify-start items-center"
   >
     <div class="flex-[0.5] flex justify-center items-center m-2 p-2">
       <img
         src="{{ product.images[imgIndex] }}"
-        class="w-full h-full p-2 rounded-md"
+        class="w-full h-[50%] p-2 m-2 rounded-md"
       />
     </div>
     <div class="flex-[0.5] flex flex-col justify-center items-center">
@@ -35,7 +35,7 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-row justify-center items-center w-full">
+  <div class="flex flex-row justify-center items-center w-full m-2">
     <img
       *ngFor="let img of product.images; let i = index"
       src="{{ img }}"

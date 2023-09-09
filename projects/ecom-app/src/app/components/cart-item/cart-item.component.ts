@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CartService, ProductsService, cartItem, product } from 'ecomLib';
 
@@ -10,6 +10,7 @@ import { CartService, ProductsService, cartItem, product } from 'ecomLib';
 export class CartItemComponent implements OnInit {
   @Input() cartItem!: cartItem;
   cartItemProduct!: product;
+  @Output() productFun: EventEmitter<product> = new EventEmitter();
 
   constructor(
     private productsService: ProductsService,
@@ -21,6 +22,7 @@ export class CartItemComponent implements OnInit {
       .getSingleProductWithReturn(this.cartItem.productId)
       .subscribe((data) => {
         this.cartItemProduct = data.data;
+        this.productFun.emit(this.cartItemProduct);
       });
   }
   updateQuanityt(value: number, doing: string) {

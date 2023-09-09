@@ -357,7 +357,7 @@ app.post("/addOrder", verifyToken ,async (req, res) => {
 const {cart, orderedBy, orderedOn, price, paymentMethod, cardDetails, address, delivered, status} = req.body;
 console.log(delivered);
 if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== "" && cardDetails && address && delivered !== null && delivered !== undefined && status) {
-   const newData = {cart: cart, orderedBy: orderedBy, orderedOn: orderedOn, price: price, paymentMethod: paymentMethod, cardDetails: cardDetails, address: address, delivered: delivered, status: status}
+   const newData = {cart: cart, orderedBy: orderedBy, orderedOn: new Date(orderedOn), price: price, paymentMethod: paymentMethod, cardDetails: cardDetails, address: address, delivered: delivered, status: status}
    const data = await Orderscoll.insertOne(newData);
    if (data) {
       res.status(202).json({success: true, data: `order added with ${data.insertedId} id`})
@@ -464,13 +464,24 @@ app.get("/adminCheck", (req, res) => {
         }
     });
 })
+app.get("/userCheck", (req, res) => {
+        const token = req.headers['authorization'];
+       console.log(token)
+    if (!token) return res.status(402).send(false);
+
+    Jwt.verify(token, JwtSecret, (err, decoded) => {
+        console.log(err);
+        if (err) return res.status(402).send(false)
+          return res.status(202).send(true)
+    });
+})
 
 app.get("/getDashbourdOrders", async(req, res) => {
   const data = [];
 for (let i = 0; i < 7; i++) {
     let date = new Date();
   const cursor = Orderscoll.find({
-          orderedOn: {$gte: new Date(new Date(Date.now()).setDate(date.getDate() - i)),$lt: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(23, 59, 59))}
+          orderedOn: {$gte: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(0o0, 0o1, 0o0)),$lt: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i)).setHours(23, 59, 59))}
   })
   console.log({
         $gte: new Date(new Date(new Date(Date.now()).setDate(date.getDate() - i))),
@@ -620,6 +631,23 @@ app.get("/getSearchProducts/:search", async(req, res) => {
     res.status(403).send("send a search")
   }
 })
+app.put("/updateProductStock", async (req, res) => {
+  const {stock, id} = req.body;
+  if (stock) {
+     const newData = {
+      $set: {
+      stock: stock,
+      },}
+     const data = await productsCool.updateOne({_id: id}, newData, {});
+     if (data.matchedCount !== 0) {
+      res.status(201).json({success: true, message: "product updated successfully"})
+     } else {
+      res.status(503).send("something went wrong please try again later or contact admin for further assistance");
+     }
+  } else  {
+    res.status(403).send("please fillt he fields");
+  }
+});
 //  listening on port
 app.listen(3000, () => {
   run().catch(console.dir);

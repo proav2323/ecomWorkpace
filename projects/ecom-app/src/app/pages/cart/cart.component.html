@@ -9,6 +9,7 @@
         *ngFor="let cartItem of cart.cartItems"
         [cartItem]="cartItem"
         class="w-[98%]"
+        (productFun)="addProduct($event)"
       ></app-cart-item>
     </div>
     <div
@@ -32,10 +33,13 @@
         <span class="m-1 text-lg font-bold text-red-500">{{
           cart.totalPrice > 1000
             ? (cart.totalPrice | currency)
-            : (cart.totalPrice + 5 | currency)
+            : (cart.totalPrice + 10 | currency)
         }}</span></span
       >
-      <button class="W-[98%] bg-blue-600 p-2 rounded-md text-white m-2">
+      <button
+        class="W-[98%] bg-blue-600 p-2 rounded-md text-white m-2"
+        (click)="navigetToCheckout()"
+      >
         Checkout
       </button>
     </div>

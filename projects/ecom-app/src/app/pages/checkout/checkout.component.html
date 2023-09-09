@@ -1,0 +1,108 @@
+<div class="flex flex-col justify-center items-center w-full">
+  <span class="text-[2rem] m-4 font-bold" *ngIf="cart !== null">Checkout</span>
+  <span class="text-[1rem] m-4 font-bold text-red-500" *ngIf="error !== ''">{{
+    error
+  }}</span>
+</div>
+<form
+  [formGroup]="formGroup"
+  class="flex flex-col justify-center items-center md:flex-row mt-2 mb-2 w-full"
+  *ngIf="cart !== null"
+>
+  <div class="flex-[0.5] flex flex-col justify-center items-center w-full">
+    <span class="m-2 text-[1.5rem] font-bold">Address</span>
+    <div class="flex md:flex-row flex-col justify-center items-center w-full">
+      <input
+        type="number"
+        formControlName="number"
+        placeholder="House Number"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+      <input
+        type="text"
+        formControlName="road"
+        placeholder="Road"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+    </div>
+    <div class="flex md:flex-row flex-col justify-center items-center w-full">
+      <input
+        type="text"
+        formControlName="apartment"
+        placeholder="Apartment"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+      <input
+        type="text"
+        formControlName="postalCode"
+        placeholder="postal Code"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+    </div>
+  </div>
+  <div class="flex-[0.5] flex flex-col justify-center items-center w-full">
+    <span class="m-2 text-[1.5rem] font-bold">Card Details</span>
+    <div class="flex md:flex-row flex-col justify-center items-center w-full">
+      <input
+        type="text"
+        formControlName="cardName"
+        placeholder="card Name"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+      <input
+        type="number"
+        formControlName="cardNumber"
+        placeholder="card number"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+    </div>
+    <div class="flex md:flex-row flex-col justify-center items-center w-full">
+      <input
+        type="text"
+        formControlName="expiresOn"
+        placeholder="expires on"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+      <input
+        type="number"
+        formControlName="cvv"
+        placeholder="cvv"
+        class="p-2 m-2 text-black bg-white rounded-md md:w-[50%] w-[90%]"
+      />
+    </div>
+  </div>
+</form>
+<div
+  class="flex-[0.4] w-[100%] flex flex-col justify-center items-center bg-blue-950 rounded-md p-2"
+  *ngIf="cart !== null"
+>
+  <span class="m-2 text-lg font-semibold text-white">Order Summary</span>
+  <span class="text-md font-bold text-white m-1"
+    >subTotal:
+    <span class="m-1 text-lg font-bold text-red-500">{{
+      cart.totalPrice | currency
+    }}</span></span
+  >
+  <span class="text-md font-bold text-white m-1"
+    >shipping:
+    <span class="m-1 text-lg font-bold text-red-500">{{
+      cart.totalPrice > 1000 ? (0 | currency) : (10 | currency)
+    }}</span></span
+  >
+  <span class="text-md font-bold text-white m1-"
+    >Total Price:
+    <span class="m-1 text-lg font-bold text-red-500">{{
+      cart.totalPrice > 1000
+        ? (cart.totalPrice | currency)
+        : (cart.totalPrice + 10 | currency)
+    }}</span></span
+  >
+  <button
+    class="W-[98%] bg-blue-600 p-2 rounded-md text-white m-2 flex justify-center items-center"
+    (click)="checkOut()"
+  >
+    <mat-spinner *ngIf="loading" [diameter]="30" class="m-2"></mat-spinner>
+    Checkout
+  </button>
+</div>
+<span *ngIf="cart == null">No Itmes In The cart</span>
