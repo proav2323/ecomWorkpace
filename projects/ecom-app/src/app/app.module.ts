@@ -29,6 +29,8 @@ import { SearchProductsComponent } from './pages/search-products/search-products
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { ProductsComponent } from './pages/products/products.component';
 import { SearchProductCardComponent } from './components/search-product-card/search-product-card.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { SearchProductCardComponent } from './components/search-product-card/sea
     SearchProductsComponent,
     ProductsComponent,
     SearchProductCardComponent,
+    CartComponent,
+    CartItemComponent,
   ],
   imports: [
     BrowserModule,

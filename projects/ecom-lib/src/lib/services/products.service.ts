@@ -249,4 +249,10 @@ export class ProductsService {
       }
     );
   }
+  getSingleProductWithReturn(id: string) {
+    const data = this.httpClient.get<{ success: boolean; data: product }>(
+      `${baseUrl}${getSingleProduct}${id}`
+    );
+    return data;
+  }
 }

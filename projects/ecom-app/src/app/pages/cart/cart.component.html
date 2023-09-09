@@ -1,0 +1,46 @@
+<div class="flex flex-col justify-center items-center w-full">
+  <span class="m-2 text-lg font-bold">Cart</span>
+  <div
+    class="flex flex-col-reverse md:flex-row justify-center items-center w-full"
+    *ngIf="cart !== null"
+  >
+    <div class="flex flex-col justify-center items-center w-full flex-[0.6]">
+      <app-cart-item
+        *ngFor="let cartItem of cart.cartItems"
+        [cartItem]="cartItem"
+        class="w-[98%]"
+      ></app-cart-item>
+    </div>
+    <div
+      class="flex-[0.4] w-[100%] flex flex-col justify-center items-center bg-blue-950 rounded-md p-2"
+    >
+      <span class="m-2 text-lg font-semibold text-white">Order Summary</span>
+      <span class="text-md font-bold text-white m-1"
+        >subTotal:
+        <span class="m-1 text-lg font-bold text-red-500">{{
+          cart.totalPrice | currency
+        }}</span></span
+      >
+      <span class="text-md font-bold text-white m-1"
+        >shipping:
+        <span class="m-1 text-lg font-bold text-red-500">{{
+          cart.totalPrice > 1000 ? (0 | currency) : (10 | currency)
+        }}</span></span
+      >
+      <span class="text-md font-bold text-white m1-"
+        >Total Price:
+        <span class="m-1 text-lg font-bold text-red-500">{{
+          cart.totalPrice > 1000
+            ? (cart.totalPrice | currency)
+            : (cart.totalPrice + 5 | currency)
+        }}</span></span
+      >
+      <button class="W-[98%] bg-blue-600 p-2 rounded-md text-white m-2">
+        Checkout
+      </button>
+    </div>
+  </div>
+  <span *ngIf="cart === null" class="m-3 text-md font-semibold"
+    >No Items In The Cart</span
+  >
+</div>

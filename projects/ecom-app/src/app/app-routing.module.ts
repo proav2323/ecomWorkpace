@@ -10,6 +10,7 @@ import {
 } from 'ecomLib';
 import { SearchProductsComponent } from './pages/search-products/search-products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+import { CartComponent } from './pages/cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'search', component: SearchProductsComponent },
   { path: 'productDetails', component: ProductDetailComponent },
+  { path: 'cart', component: CartComponent },
 ];
 
 @NgModule({

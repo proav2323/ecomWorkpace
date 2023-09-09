@@ -1,0 +1,31 @@
+<div
+  class="flex flex-row w-full justify-center items-center bg-white rounded-md p-2 mt-1 mb-1 text-black"
+>
+  <img src="{{ cartItemProduct.images[0] }}" class="w-14 h-14 m-2" />
+  <div class="flex-1 w-full flex justify-between items-center m-2">
+    <div class="flex flex-col justify-center items-center">
+      <span class="text-md font-bold m-1">{{ cartItemProduct.name }}</span>
+      <div class="flex flex-row justify-center items-center m-2">
+        <button
+          class="m-1 p-2 bg-black text-white rounded-md"
+          (click)="updateQuanityt(this.cartItem.quantity + 1, 'add')"
+        >
+          +
+        </button>
+        <span>{{ cartItem.quantity.toString() }}</span>
+        <button
+          class="m-1 p-2 bg-black text-white rounded-md"
+          (click)="updateQuanityt(this.cartItem.quantity - 1, 'sub')"
+        >
+          -
+        </button>
+      </div>
+    </div>
+    <div class="flex justify-center items-center">
+      <span class="text-lg font-bold">{{ cartItem.price | currency }}</span>
+      <button class="m-2" (click)="removeItem()">
+        <mat-icon class="text-black">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

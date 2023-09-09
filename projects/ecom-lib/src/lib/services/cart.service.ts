@@ -50,44 +50,13 @@ export class CartService {
         this.$cart.next(newCart);
         localStorage.setItem('cart', JSON.stringify(newCart));
         console.log(cart);
-        if (categoryName) {
-          this.productsService.updateProduct(
-            productId,
-            product.name,
-            product.description,
-            product.images,
-            product.price,
-            product.category,
-            product.ratings,
-            product.reviews,
-            product.stock - quanitit,
-            new BehaviorSubject(''),
-            product.isBanner,
-            product.bannerText,
-            categoryName
-          );
-        } else {
-          this.productsService.updateProduct(
-            productId,
-            product.name,
-            product.description,
-            product.images,
-            product.price,
-            product.category,
-            product.ratings,
-            product.reviews,
-            product.stock - quanitit,
-            new BehaviorSubject(''),
-            product.isBanner,
-            product.bannerText
-          );
-        }
         this.$cartLoading.next(false);
       } else {
         this.updateItemFromCart(
           item.productId,
           item.quantity + quanitit,
           product,
+          'add',
           categoryName
         );
       }
@@ -104,38 +73,6 @@ export class CartService {
       const newCart = new cart(totalPrice, items, totalQty);
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
-      if (categoryName) {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock - quanitit,
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText,
-          categoryName
-        );
-      } else {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock - quanitit,
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText
-        );
-      }
       console.log(cart);
       this.$cartLoading.next(false);
     }
@@ -169,39 +106,6 @@ export class CartService {
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
       console.log(cart);
-      if (categoryName) {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock + item!.quantity,
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText,
-          categoryName
-        );
-      } else {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock + item!.quantity,
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText
-        );
-      }
-
       this.$cartLoading.next(false);
     }
   }
@@ -210,6 +114,7 @@ export class CartService {
     productId: string,
     qty: number,
     product: product,
+    doing: string,
     categoryName?: string
   ) {
     if (this.$cart.getValue() !== null && this.$cart.getValue() !== undefined) {
@@ -234,39 +139,7 @@ export class CartService {
       this.$cart.next(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
       console.log(cart);
-      if (categoryName) {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock - (qty - prevQty),
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText,
-          categoryName
-        );
-      } else {
-        this.productsService.updateProduct(
-          productId,
-          product.name,
-          product.description,
-          product.images,
-          product.price,
-          product.category,
-          product.ratings,
-          product.reviews,
-          product.stock - qty,
-          new BehaviorSubject(''),
-          product.isBanner,
-          product.bannerText
-        );
-      }
-      this.$cartLoading.next(false);
     }
+    this.$cartLoading.next(false);
   }
 }
