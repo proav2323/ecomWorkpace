@@ -13,6 +13,7 @@ import { SearchProductsComponent } from './pages/search-products/search-products
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { UsersOrdersComponent } from './pages/users-orders/users-orders.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,11 @@ const routes: Routes = [
   { path: 'productDetails', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [UserGuard] },
+  {
+    path: 'yourOrders',
+    component: UsersOrdersComponent,
+    canActivate: [UserGuard],
+  },
 ];
 
 @NgModule({

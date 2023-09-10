@@ -41,4 +41,7 @@ export class HomeComponent {
   toggleMobileSearch(value: boolean) {
     this.$mobileSearch.next(value);
   }
+  logout() {
+    this.authService.logout();
+  }
 }

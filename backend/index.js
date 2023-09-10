@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import express from 'express';
 import cors from 'cors'
 import bodyParser from 'body-parser';
@@ -63,7 +63,7 @@ app.post("/auth/login", async (req, res) => {
           return res.status(404).send("wrong password")
         }
         if (same) {
-                       let token = Jwt.sign({userId: data._id, email: data.email, role: data.role}, JwtSecret, {expiresIn: "10d"})
+          let token = Jwt.sign({userId: data._id, email: data.email, role: data.role}, JwtSecret, {expiresIn: "10d"})
         res.status(202).json({
           success: true,
           data: {
@@ -165,7 +165,7 @@ uploadTask.on('state_changed',
 app.get("/getUser/:id", async (req, res) => {
   const {id} = req.params;
   if (id !== "") {
-   const data = await usersColl.findOne({}, {_id: id});
+   const data = await usersColl.findOne({_id: new ObjectId(id)});
    if (data) {
      res.status(202).json({
       success: true,
@@ -214,7 +214,7 @@ res.status(202).json({
 }
 })
 
-app.get("/getAllUsers", verifyUserAdmin ,async (req, res) => {
+app.get("/getAllUsers",async (req, res) => {
   const users = [];
   const data = usersColl.find();
   if (data) {
@@ -321,7 +321,7 @@ const newData = {
   }
 }
 console.log(id);
-const data = await usersColl.updateOne({_id: id}, newData,);
+const data = await usersColl.updateOne({_id: new ObjectId(id)}, newData);
 if (data.modifiedCount !== 0) {
 res.status(202).json({
   success: true,
@@ -339,7 +339,7 @@ res.status(202).json({
 app.delete("/deleteUser/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
   if (id) {
-       const data = await usersColl.deleteOne({_id: id});
+       const data = await usersColl.deleteOne({_id: new ObjectId(id)});
    if (data) {
     res.status(202).json({
       success: true,
@@ -369,7 +369,7 @@ if (cart && orderedBy !== "" && orderedOn && price !== 0 && paymentMethod !== ""
 }
 })
 
-app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
+app.put("/updateOrder/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
   const {delivered, status} = req.body;
   if (delivered !== null && delivered !== undefined && id && status) {
@@ -379,7 +379,8 @@ app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
         status: status,
       }
     }
-    const data = await Orderscoll.updateOne({_id: id}, newData);
+    console.log(id);
+    const data = await Orderscoll.updateOne({_id: new ObjectId(id)}, newData);
     if (data.modifiedCount !== 0) {
         res.status(202).json({success: true, data: "ordered updated"})
     } else {
@@ -390,10 +391,10 @@ app.put("updateOrder/:id", verifyUserAdmin ,async(req, res) => {
   }
 })
 
-app.delete("deleteOrder/:id", verifyUserAdmin ,async(req, res) => {
+app.delete("/deleteOrder/:id", verifyUserAdmin ,async(req, res) => {
   const {id} = req.params;
   if (id) {
-          const data = await Orderscoll.deleteOne({_id: id});
+          const data = await Orderscoll.deleteOne({_id: new ObjectId(id)});
    if (data) {
     res.status(202).json({
       success: true,
@@ -407,16 +408,17 @@ app.delete("deleteOrder/:id", verifyUserAdmin ,async(req, res) => {
   }
 })
 
-app.get("/getUsersOrders", verifyToken ,async(req, res) => {
-  const {userId} = req.body;
+app.get("/getUsersOrders/:userId", verifyToken , async(req, res) => {
+  const {userId} = req.params;
+  console.log("hi")
   if (userId) {
-    const data = await Orderscoll.find({orderedBy: userId})
+    const data = Orderscoll.find({orderedBy: userId})
     if (data) {
       const orders = [];
 for await (const doc of data) {
   orders.push(doc);
 }
-res.status(201).json({success: true,orders : orders });
+res.status(202).json({success: true,orders : orders });
     } else {
       res.status(404).send('no orders found')
     }
@@ -545,7 +547,7 @@ app.put("/updateCategory/:id", verifyUserAdmin ,(req, res) => {
         name: name,
         imgUrl: imgUrl
       }};
-      const data = categoriesColl.updateOne( {_id: id}, newData,);
+      const data = categoriesColl.updateOne( {_id: new ObjectId(id)}, newData,);
       if (data) {
         res.status(202).json({
           success: true,
@@ -562,7 +564,7 @@ app.put("/updateCategory/:id", verifyUserAdmin ,(req, res) => {
 app.delete("/deleteCategory/:id", verifyUserAdmin ,async(req, res) => {
     const {id} = req.params;
   if (id) {
-          const data = await categoriesColl.deleteOne({_id: id},);
+          const data = await categoriesColl.deleteOne({_id: new ObjectId(id)},);
    if (data) {
     res.status(202).json({
       success: true,

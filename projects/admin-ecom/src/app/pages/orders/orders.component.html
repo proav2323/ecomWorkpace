@@ -1,0 +1,33 @@
+<div class="flex flex-col justify-start items-center">
+  <div
+    class="flex flex-col justify-start items-center m-2 p-2 rounded-md shadow-lg w-[98%]"
+    *ngIf="orders.length !== 0"
+  >
+    <div *ngFor="let category of orders" class="w-[98%]">
+      <div class="flex flex-row justify-between items-center w-[98%]">
+        <div class="flex flex-row justify-center items-center">
+          <span class="m-2 text-lg font-bold">{{ category._id }}</span>
+          <span class="m-2 text-lg font-bold">{{
+            category.price | currency
+          }}</span>
+        </div>
+        <div class="flex justify-center items-center">
+          <mat-slide-toggle
+            [checked]="category.delivered"
+            (change)="change(category, $event)"
+            >Is Delivered</mat-slide-toggle
+          >
+          <button
+            class="pt-1 pb-1 pr-2 pl-2 text-black m-2 rounded-md flex flex-row justify-center items-center"
+            (click)="delete(category._id)"
+          >
+            <mat-icon class="m-3">remove</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="m-3 text-lg font-bold" *ngIf="orders.length === 0"
+    >No Orders</span
+  >
+</div>

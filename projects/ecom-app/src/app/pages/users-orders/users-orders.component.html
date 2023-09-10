@@ -1,0 +1,27 @@
+<div class="flex flex-col justify-start items-center w-full">
+  <span class="m-2 text-2xl font-bold">Your Orders</span>
+  <div class="bg-white rounded-md text-black m-2 w-[98%]">
+    <div
+      *ngFor="let order of orders"
+      class="flex flex-row justify-center flex-wrap items-center p-2 m-2"
+    >
+      <span class="text-md font-bold m-1">id: {{ order._id }}</span>
+      <span class="text-red-500 font-semibold m-2"
+        >total Price: {{ order.price | currency }}</span
+      >
+      <span *ngIf="order.address.apartment !== ''" class="font-semibold m-2"
+        >address: {{ order.address.apartment }}</span
+      >
+      <span *ngIf="order.address.road !== ''" class="font-semibold m-2"
+        >address: {{ order.address.number }} {{ order.address.road }}</span
+      >
+      <span class="font-semibold m-2"
+        >card Used Name: {{ order.cardDetails.name }}</span
+      >
+      <span class="font-semibold m-2"
+        >Order On: {{ order.orderedOn | date }}</span
+      >
+      <span class="font-semibold m-2">status: {{ order.status }}</span>
+    </div>
+  </div>
+</div>

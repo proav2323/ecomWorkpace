@@ -1,11 +1,14 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   baseUrl,
   decodeToken,
+  deleteUser,
+  getAllUsers,
   getUser,
   login,
   signUp,
+  updateUser,
   uploadImage,
 } from '../utils/constants';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -190,5 +193,78 @@ export class AuthService {
       };
     }>(`${baseUrl}${getUser}/${id}`);
     return data;
+  }
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/login');
+    this.$user.next(null);
+  }
+  getAllUsers(): Observable<{ success: boolean; data: User[] }> {
+    this.$loading.next(true);
+    const data = this.httpClient.get<{ success: boolean; data: User[] }>(
+      `${baseUrl}${getAllUsers}`
+    );
+    return data;
+  }
+  updateUser(
+    id: string,
+    name: string,
+    role: string,
+    imgUrl: string,
+    email: string,
+    wishlist: { productId: string }[]
+  ) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const queryParams: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token,
+      });
+      const data = this.httpClient.put<{
+        success: boolean;
+        data: string;
+      }>(
+        `${baseUrl}${updateUser}${id}`,
+        {
+          name: name,
+          role: role,
+          imgUrl: imgUrl,
+          email: email,
+          wishlist: wishlist,
+        },
+        { headers: queryParams }
+      );
+      data.subscribe(
+        (data) => {
+          this.getAllUsers();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+  deleteUser(id: string) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const queryParams: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token,
+      });
+      const data = this.httpClient.delete<{
+        success: true;
+        data: string;
+      }>(`${baseUrl}${deleteUser}${id}`, {
+        headers: queryParams,
+      });
+      data.subscribe(
+        (data) => {
+          this.getAllUsers();
+        },
+        (Err) => {
+          console.log(Err);
+        }
+      );
+    }
   }
 }

@@ -5,10 +5,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   addOrder,
   baseUrl,
+  deleteOrder,
   getAllOrders,
+  updateOrder,
   updateProduct,
 } from '../utils/constants';
-import { getDashbourdOrders } from '../utils/constants';
+import { getDashbourdOrders, getUsersOrders } from '../utils/constants';
 import { User } from '../models/user';
 import { CartService } from './cart.service';
 import { Router } from '@angular/router';
@@ -163,6 +165,75 @@ export class OrdersService {
             $error.next('Internal Error');
             this.$loading.next(false);
           }
+        }
+      );
+    }
+  }
+  getUserOrders(userId: string) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.$loading.next(true);
+      const queryParams: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token,
+      });
+      const data = this.httpClient.get<{ success: boolean; orders: order[] }>(
+        `${baseUrl}${getUsersOrders}/${userId}`,
+        { headers: queryParams }
+      );
+      data.subscribe(
+        (data) => {
+          this.$orders.next(data.orders);
+          console.log(data.orders);
+        },
+        (Err) => {
+          console.log(Err);
+        }
+      );
+    }
+  }
+  updateOrder(id: string, idDeliverd: boolean, status: string) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const queryParams: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token,
+      });
+      const data = this.httpClient.put(
+        `${baseUrl}${updateOrder}${id}`,
+        {
+          delivered: idDeliverd,
+          status: status,
+        },
+        { headers: queryParams }
+      );
+      data.subscribe(
+        (data) => {
+          this.getAllOrders(token);
+        },
+        (err) => [console.log(err)]
+      );
+    }
+  }
+  deleteOrder(id: string) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const queryParams: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token,
+      });
+      const data = this.httpClient.delete<{
+        success: true;
+        data: string;
+      }>(`${baseUrl}${deleteOrder}${id}`, {
+        headers: queryParams,
+      });
+      data.subscribe(
+        (data) => {
+          this.getAllOrders(token);
+        },
+        (Err) => {
+          console.log(Err);
         }
       );
     }

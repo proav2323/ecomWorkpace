@@ -29,6 +29,8 @@ import { ProductsComponent } from './pages/products/products.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { UsersComponent } from './pages/users/users.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +40,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CategoriesComponent,
     AddCategoryComponent,
     ProductsComponent,
+    UsersComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,
