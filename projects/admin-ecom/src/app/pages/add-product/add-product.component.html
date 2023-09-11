@@ -61,6 +61,7 @@
         placeholder="product InStock"
         formControlName="stock"
         type="number"
+        *ngIf="!update"
       />
     </div>
     <div class="flex flex-row justify-center items-center w-full m-1">
@@ -89,8 +90,8 @@
       (click)="addProduct()"
     >
       <mat-spinner class="m-2" [diameter]="30" *ngIf="loading"></mat-spinner>
-      <mat-icon class="m-2 text-white">add</mat-icon>
-      Add Product
+      <mat-icon class="m-2 text-white">{{ update ? "edit" : "add" }}</mat-icon>
+      {{ update ? "Update" : "Add" }}
     </button>
   </form>
 </div>

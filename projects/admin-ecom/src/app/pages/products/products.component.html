@@ -26,6 +26,8 @@
         <div class="flex justify-center items-center">
           <button
             class="pt-1 pb-1 pr-2 pl-2 text-black m-2 rounded-md flex flex-row justify-center items-center"
+            routerLink="/addProduct"
+            [queryParams]="{ update: true, id: category._id }"
           >
             <mat-icon class="m-3">edit</mat-icon>
           </button>

@@ -29,6 +29,7 @@
     (click)="addCategory()"
   >
     <mat-spinner [diameter]="30" class="m-2" *ngIf="loading"></mat-spinner>
-    <mat-icon class="m-3 text-white">add</mat-icon> Add
+    <mat-icon class="m-3 text-white">{{ update ? "edit" : "add" }}</mat-icon>
+    {{ update ? "Update" : "Add" }}
   </button>
 </div>

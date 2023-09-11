@@ -5,7 +5,7 @@
     <span class="font-bold text-lg m-2 text-white">Add A category</span>
     <button
       class="pt-1 pb-1 pl-2 pr-2 text-lg m-2 bg-grad flex flex-row justify-center items-center text-white rounded-md"
-      (click)="opneDialog()"
+      (click)="opneDialog(false)"
     >
       <mat-icon class="m-3 text-white">add</mat-icon> Add Category
     </button>
@@ -23,6 +23,7 @@
         <div class="flex justify-center items-center">
           <button
             class="pt-1 pb-1 pr-2 pl-2 text-black m-2 rounded-md flex flex-row justify-center items-center"
+            (click)="opneDialog(true, category)"
           >
             <mat-icon class="m-3">edit</mat-icon>
           </button>

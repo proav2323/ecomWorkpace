@@ -109,6 +109,7 @@ export class CategoriesService {
       (data) => {
         console.log('updated');
         this.getAllCategories(token);
+        this.Snackbar.open('catehory updated', 'close');
         this.$loading.next(false);
       },
       (err) => {

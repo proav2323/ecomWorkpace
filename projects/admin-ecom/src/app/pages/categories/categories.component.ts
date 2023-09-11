@@ -23,17 +23,35 @@ export class CategoriesComponent {
     }
   }
 
-  opneDialog() {
-    if (window.innerWidth > 650) {
-      this.dailog.open(AddCategoryComponent, {
-        width: `${(window.innerWidth - 300).toString()}px`,
-        height: `${(window.innerHeight - 300).toString()}px`,
-      });
+  opneDialog(value: boolean, category?: categories) {
+    if (value) {
+      if (window.innerWidth > 650) {
+        this.dailog.open(AddCategoryComponent, {
+          width: `${(window.innerWidth - 300).toString()}px`,
+          height: `${(window.innerHeight - 300).toString()}px`,
+          data: { update: true, category: category },
+        });
+      } else {
+        this.dailog.open(AddCategoryComponent, {
+          width: `${(window.innerWidth - 100).toString()}px`,
+          height: `${(window.innerHeight - 100).toString()}px`,
+          data: { update: true, category: category },
+        });
+      }
     } else {
-      this.dailog.open(AddCategoryComponent, {
-        width: `${(window.innerWidth - 100).toString()}px`,
-        height: `${(window.innerHeight - 100).toString()}px`,
-      });
+      if (window.innerWidth > 650) {
+        this.dailog.open(AddCategoryComponent, {
+          width: `${(window.innerWidth - 300).toString()}px`,
+          height: `${(window.innerHeight - 300).toString()}px`,
+          data: { update: false, category: null },
+        });
+      } else {
+        this.dailog.open(AddCategoryComponent, {
+          width: `${(window.innerWidth - 100).toString()}px`,
+          height: `${(window.innerHeight - 100).toString()}px`,
+          data: { update: false, category: null },
+        });
+      }
     }
   }
   delete(id: string) {
