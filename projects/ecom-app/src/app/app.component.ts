@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { JWTService } from './services/jwt.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent {
     const token = localStorage.getItem('token');
     if (token) {
       this.jwtService.decodeToken(token);
+      initFlowbite();
     }
   }
 }
